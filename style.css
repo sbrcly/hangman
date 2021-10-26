@@ -1,0 +1,25 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1;
+}
+
+#hangman-game {
+  width: 80vw;
+  margin: 20vh auto;
+  text-align: center;
+}
+
+#hangman-game * {
+  padding: 1rem;
+}
+
+#mystery-value {
+  font-size: 5rem;
+  letter-spacing: 15px;
+}
