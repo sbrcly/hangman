@@ -1,25 +1,93 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
 html {
-  font-size: 16px;
-  line-height: 1;
+	font-size: 16px;
+	line-height: 1;
+	font-family: 'Montserrat', sans-serif;
+}
+
+body {
+	background-color: #333;
+	color: #eee;
 }
 
 #hangman-game {
-  width: 80vw;
-  margin: 20vh auto;
-  text-align: center;
+	width: 80vw;
+	max-width: 1500px;
+	margin: 12vh auto 0 auto;
+	text-align: center;
 }
 
 #hangman-game * {
-  padding: 1rem;
+	padding: 1rem;
+}
+
+#page-heading {
+	font-size: 5rem;
+	text-transform: uppercase;
+	letter-spacing: 25px;
+}
+
+#alphabet-buttons button {
+	font-size: 1.2rem;
+	margin: 0.5rem;
+	width: 50px;
+	border-radius: 10px;
+	border: none;
+	background-color: #fff;
+	box-shadow: 0 0 15px rgba(17, 17, 17, 0.8);
+}
+
+#alphabet-buttons button:hover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.685);
+	box-shadow: 0 0 7px rgba(17, 17, 17, 0.9);
+}
+
+#alphabet-buttons button.correct {
+	background-color: rgb(41, 104, 41);
+	color: #fff;
+	transform: rotateY(360deg);
+	transition: all 1s;
+}
+
+#alphabet-buttons button.wrong {
+	background-color: rgb(104, 41, 41);
+	color: #fff;
+	transform: rotateY(360deg);
+	transition: all 1s;
+}
+
+#category-options {
+	text-align: center;
+	letter-spacing: 1px;
+	border: none;
+	font-size: 1.5rem;
+	padding: 0.5rem;
+	margin-left: 1rem;
+	border-radius: 10px;
+	box-shadow: 0 0 25px rgba(17, 17, 17, 0.8);
+}
+
+#category-options:focus,
+#category-options:active {
+	outline: transparent;
 }
 
 #mystery-value {
-  font-size: 5rem;
-  letter-spacing: 15px;
+	font-size: 5rem;
+	letter-spacing: 20px;
+}
+
+#lives {
+	color: #fff;
+	background-color: rgb(41, 104, 41);
+	border-radius: 10px;
+	padding: 0.5rem 1rem;
+	font-size: 2rem;
+	font-weight: 900;
 }

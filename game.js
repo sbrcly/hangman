@@ -4,12 +4,12 @@ class Game {
         this.categoryOptions = categoryOptions;
         this.mysteryValueHolder = mysteryValueHolder;
         this.livesLeft = livesLeft;
-        this.shownLetters = [];
 
         this.mysteryTerm = undefined;
         this.hideTerm = undefined;
 
-        livesLeft.innerText = 10;
+        this.shownLetters = [];
+        livesLeft.innerText = 7;
 
         for (let letter of this.letterBtns) {
             letter.addEventListener('click', () => {
@@ -21,13 +21,19 @@ class Game {
         this.chooseMysteryValue();
     }
     pickLetter = (letter) => {
+        letter.disabled = true;
         if (this.mysteryTerm.toLowerCase().indexOf(letter.id) != -1) {
+            letter.classList.add('correct');
             this.displayLetter(letter);
         }   else {
+            letter.classList.add('wrong');
             this.livesLeft.innerText = this.livesLeft.innerText - 1;
+            if (this.livesLeft.innerText < 6) this.livesLeft.style.backgroundColor = 'rgb(104, 41, 41)';
+            if (this.livesLeft.innerText == 0) this.gameOver();
         }
     }
     chooseMysteryValue = () => {
+        this.resetGame();
         const chosenCat = this.categoryOptions.value;
         const getCatIndex = categories.indexOf(chosenCat);
         const random = Math.floor(Math.random() * mysteryTerms[getCatIndex].length);
@@ -63,10 +69,39 @@ class Game {
         for (let k = 0; k < this.mysteryTerm.length; k++) {
             for (let c of this.shownLetters) {
                 if (this.mysteryTerm[k].toLowerCase() === ' ') {
-                    placeholder[k] = ' ';
+                    placeholder[k] = '  ';
                 }
             }
         }
         this.mysteryValueHolder.innerText = placeholder.join('');
+        if (this.mysteryValueHolder.innerText.indexOf('_') === -1) this.chickenDinner();
+    }
+    chickenDinner = () => {
+        for (let letter of this.letterBtns) {
+            letter.disabled = true;
+        }
+        setTimeout(() => {
+            alert('You Win!')
+        }, 500);
+        this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)'
+    }
+    gameOver = () => {
+        for (let letter of this.letterBtns) {
+            letter.disabled = true;
+        }
+        setTimeout(() => {
+            alert('You lose!')
+        }, 500);
+        this.mysteryValueHolder.innerText = this.mysteryTerm;
+    }
+    resetGame = () => {
+        this.shownLetters = [];
+        this.livesLeft.innerText = 7;
+        for (let letter of this.letterBtns) {
+            letter.disabled = false;
+            letter.classList.remove('correct');
+            letter.classList.remove('wrong');
+        }
+        this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
     }
 };
