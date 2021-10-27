@@ -1,93 +1,248 @@
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 html {
-	font-size: 16px;
-	line-height: 1;
-	font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
-	background-color: #333;
-	color: #eee;
+  height: 100vh;
+  background-image: linear-gradient(rgb(34, 34, 34, 0.7), rgb(25, 25, 25));
+  background-size: cover;
+  color: #eee;
+  overflow: hidden;
+}
+
+#navbar {
+  margin: 1rem 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#difficulty {
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+#difficulty option {
+  font-size: 1.05rem;
+}
+
+#difficulty:hover {
+  cursor: pointer;
+}
+
+#difficulty:active,
+#difficulty:focus {
+  outline: transparent;
 }
 
 #hangman-game {
-	width: 80vw;
-	max-width: 1500px;
-	margin: 12vh auto 0 auto;
-	text-align: center;
+  width: 100vw;
+  max-width: 1700px;
+  margin: 3vh auto 0 auto;
+  text-align: center;
+}
+
+#win-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  z-index: -1;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+#hangman-game.win * {
+  opacity: 0.1;
+  transition: all 1s;
+}
+
+#win-overlay h1 {
+  font-family: 'Architects Daughter', cursive;
+  color: rgb(41, 104, 41);
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+  font-size: 10rem;
+  transform: scale(0);
+  opacity: 0;
+}
+
+#hangman-game.win #win-overlay {
+  z-index: 1;
+  opacity: 1;
+  transition: all 1s;
+}
+
+#hangman-game.win #win-overlay h1 {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 1s ease-in;
+}
+
+#lose-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  display: flex;
+  z-index: -1;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+
+#hangman-game.lose * {
+  opacity: 0.1;
+  transition: all 1s;
+}
+
+#lose-overlay h1 {
+  font-family: 'Architects Daughter', cursive;
+  color: rgb(104, 41, 41);
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+  font-size: 10rem;
+  opacity: 0;
+  transform: scale(0);
+}
+
+#hangman-game.lose #lose-overlay {
+  z-index: 1;
+  opacity: 1;
+  transition: all 1s;
+}
+
+#hangman-game.lose #lose-overlay h1 {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 1s ease-in;
 }
 
 #hangman-game * {
-	padding: 1rem;
+  padding: 1rem;
 }
 
 #page-heading {
-	font-size: 5rem;
-	text-transform: uppercase;
-	letter-spacing: 25px;
+  font-family: 'Architects Daughter', cursive;
+  font-size: 6rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 25px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  margin-bottom: 5rem;
+}
+
+#page-heading span {
+  color: rgb(41, 104, 41);
+}
+
+#instructions {
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+#alphabet-buttons {
+  padding: 2rem;
+  border-radius: 25px;
+  background-color: #333;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+  margin: 2rem auto;
+  max-width: 50vw;
+  transform: scale(1.02);
+}
+
+#alphabet-buttons:hover {
+  transform: scale(1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+  transition: all 0.5s;
 }
 
 #alphabet-buttons button {
-	font-size: 1.2rem;
-	margin: 0.5rem;
-	width: 50px;
-	border-radius: 10px;
-	border: none;
-	background-color: #fff;
-	box-shadow: 0 0 15px rgba(17, 17, 17, 0.8);
+  font-size: 1.2rem;
+  margin: 0.5rem;
+  width: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgba(17, 17, 17, 0.8);
 }
 
 #alphabet-buttons button:hover {
-	cursor: pointer;
-	background-color: rgba(255, 255, 255, 0.685);
-	box-shadow: 0 0 7px rgba(17, 17, 17, 0.9);
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.685);
+  box-shadow: 0 0 3px rgba(17, 17, 17, 0.9);
+  font-size: 1.1rem;
 }
 
 #alphabet-buttons button.correct {
-	background-color: rgb(41, 104, 41);
-	color: #fff;
-	transform: rotateY(360deg);
-	transition: all 1s;
+  background-color: rgb(41, 104, 41);
+  color: #fff;
+  transform: rotateY(360deg);
+  transition: all 1s;
 }
 
 #alphabet-buttons button.wrong {
-	background-color: rgb(104, 41, 41);
-	color: #fff;
-	transform: rotateY(360deg);
-	transition: all 1s;
+  background-color: rgb(104, 41, 41);
+  color: #fff;
+  transform: rotateY(360deg);
+  transition: all 1s;
 }
 
 #category-options {
-	text-align: center;
-	letter-spacing: 1px;
-	border: none;
-	font-size: 1.5rem;
-	padding: 0.5rem;
-	margin-left: 1rem;
-	border-radius: 10px;
-	box-shadow: 0 0 25px rgba(17, 17, 17, 0.8);
+  font-family: 'Architects Daughter', cursive;
+  color: rgb(104, 41, 41);
+  text-align: center;
+  letter-spacing: 1px;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(10, 10, 10, 1);
 }
 
 #category-options:focus,
 #category-options:active {
-	outline: transparent;
+  outline: transparent;
+}
+
+#category-options:hover {
+  cursor: pointer;
 }
 
 #mystery-value {
-	font-size: 5rem;
-	letter-spacing: 20px;
+  margin-top: 2rem;
+  font-family: 'Architects Daughter', cursive;
+  font-size: 5rem;
+  letter-spacing: 25px;
+  width: 100%;
 }
 
 #lives {
-	color: #fff;
-	background-color: rgb(41, 104, 41);
-	border-radius: 10px;
-	padding: 0.5rem 1rem;
-	font-size: 2rem;
-	font-weight: 900;
+  font-family: 'Architects Daughter', cursive;
+  color: #fff;
+  background-color: rgb(41, 104, 41);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  font-weight: 900;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }

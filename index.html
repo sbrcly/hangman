@@ -5,17 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/hangman-main/style.css">
 </head>
 <body>
+    <nav id="navbar">
+        <select name="difficulty" id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </nav>
     <section id="hangman-game">
-        <h1 id="page-heading">Hangman</h1>
+        <div id="win-overlay">
+            <h1>You Win!!</h1>
+        </div>
+        <div id="lose-overlay">
+            <h1>You Lose!!</h1>
+        </div>
+        <h1 id="page-heading">H<span>a</span>ngm<span>a</span>n</h1>
         <h3 id="instructions">Guess a letter by clicking it below. Or just use your keyboard!</h3>
         <section id="alphabet-buttons"></section>
-        <h3 id="category">Your category is: <select name="category" id="category-options">
+        <h3 id="category">The category is: <select name="category" id="category-options">
         </select></h3>
         <h2 id="mystery-value"></h2>
         <h3 id="lives-remaining"> <span id="lives"></span> Lives Remaining!</h3>
