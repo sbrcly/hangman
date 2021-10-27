@@ -7,6 +7,7 @@ class Game {
         this.mysteryValueHolder = mysteryValueHolder;
         this.livesLeft = livesLeft;
 
+        this.chosenCat = undefined;
         this.mysteryTerm = undefined;
         this.hideTerm = undefined;
 
@@ -73,8 +74,8 @@ class Game {
     }
     chooseMysteryValue = () => {
         this.resetGame();
-        const chosenCat = this.categoryOptions.value;
-        const getCatIndex = categories.indexOf(chosenCat);
+        this.chosenCat = this.categoryOptions.value;
+        const getCatIndex = categories.indexOf(this.chosenCat);
         const random = Math.floor(Math.random() * mysteryTerms[getCatIndex].length);
         this.mysteryTerm = mysteryTerms[getCatIndex][random];
         this.displayMysteryTerm();
@@ -123,7 +124,32 @@ class Game {
         this.gameContainer.classList.add('win');
         this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
         this.difficultyBtn.style.opacity = 0;
+        if (this.chosenCat === 'movies') this.fetchWinningTerm();
     };
+    fetchWinningTerm = () => {
+        const fetchData = async () => {
+            const response = await axios.get('https://www.omdbapi.com/', {
+                params: {
+                    apikey: '52fb1527',
+                    s: this.mysteryTerm
+                }
+            });
+            return response.data.Search[0].imdbID;
+        };
+        fetchData()
+        .then((result) => {
+            const fetchData = async () => {
+                const response = await axios.get('https://www.omdbapi.com/', {
+                    params: {
+                        apikey: '52fb1527',
+                        i: result
+                    }
+                });
+                console.log(response.data);
+            };
+            fetchData();
+        })
+    }
     gameOver = () => {
         for (let letter of this.letterBtns) {
             letter.disabled = true;
