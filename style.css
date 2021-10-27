@@ -1,0 +1,235 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 16px;
+	line-height: 1;
+	font-family: 'Montserrat', sans-serif;
+}
+
+body {
+	height: 100vh;
+	background-image: linear-gradient(rgb(34, 34, 34, 0.7), rgb(25, 25, 25));
+	background-size: cover;
+	color: #eee;
+	overflow: hidden;
+}
+
+#navbar {
+	position: absolute;
+	top: 2vh;
+	right: 1vw;
+	margin: 1rem 2rem;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#difficulty {
+	padding: 0.5rem;
+	text-align: center;
+	font-weight: 700;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	border-radius: 10px;
+	border: none;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+#difficulty option {
+	font-size: 1.05rem;
+}
+
+#difficulty:hover {
+	cursor: pointer;
+}
+
+#difficulty:active,
+#difficulty:focus {
+	outline: 3px solid rgb(104, 41, 41);
+}
+
+#hangman-game {
+	width: 100vw;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.game-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: transparent;
+	display: flex;
+	z-index: -1;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+}
+
+#hangman-game.win *,
+#hangman-game.lose * {
+	opacity: 0.1;
+	transition: all 1s;
+}
+
+.game-overlay h1 {
+	font-family: 'Architects Daughter', cursive;
+	text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+	font-size: 10rem;
+	transform: scale(0);
+	opacity: 0;
+}
+
+#win-overlay h1 {
+	color: rgb(41, 104, 41);
+}
+
+#lose-overlay h1 {
+	color: rgb(104, 41, 41);
+}
+
+#hangman-game.win #win-overlay {
+	z-index: 1;
+	opacity: 1;
+	transition: all 1s;
+}
+
+#hangman-game.lose #lose-overlay {
+	z-index: 1;
+	opacity: 1;
+	transition: all 1s;
+}
+
+#hangman-game.win #win-overlay h1 {
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-in;
+}
+
+#hangman-game.lose #lose-overlay h1 {
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-in;
+}
+
+#hangman-game * {
+	padding: 1rem;
+}
+
+#page-heading {
+	font-family: 'Architects Daughter', cursive;
+	font-size: 6rem;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 25px;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+	margin-bottom: 5rem;
+}
+
+#page-heading span {
+	color: rgb(41, 104, 41);
+}
+
+#instructions {
+	color: #fff;
+	letter-spacing: 1px;
+	text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+#alphabet-buttons {
+	padding: 2rem;
+	border-radius: 25px;
+	background-color: #333;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+	margin: 2rem auto;
+	max-width: 750px;
+	transform: scale(1.02);
+}
+
+#alphabet-buttons:hover {
+	transform: scale(1);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+	transition: all 0.5s;
+}
+
+#alphabet-buttons button {
+	font-size: 1.2rem;
+	margin: 0.5rem;
+	width: 50px;
+	border-radius: 10px;
+	border: none;
+	background-color: #fff;
+	box-shadow: 0 0 15px rgba(17, 17, 17, 0.8);
+}
+
+#alphabet-buttons button:hover {
+	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.685);
+	box-shadow: 0 0 3px rgba(17, 17, 17, 0.9);
+	font-size: 1.1rem;
+}
+
+#alphabet-buttons button.correct {
+	background-color: rgb(41, 104, 41);
+	color: #fff;
+	transform: rotateY(360deg);
+	transition: all 1s;
+}
+
+#alphabet-buttons button.wrong {
+	background-color: rgb(104, 41, 41);
+	color: #fff;
+	transform: rotateY(360deg);
+	transition: all 1s;
+}
+
+#category-options {
+	font-family: 'Architects Daughter', cursive;
+	color: rgb(104, 41, 41);
+	text-align: center;
+	letter-spacing: 1px;
+	border: none;
+	font-size: 1.5rem;
+	padding: 0.5rem;
+	margin-left: 1rem;
+	border-radius: 10px;
+	box-shadow: 0 0 25px rgba(10, 10, 10, 1);
+}
+
+#category-options:focus,
+#category-options:active {
+	outline: 3px solid rgb(104, 41, 41);
+}
+
+#category-options:hover {
+	cursor: pointer;
+}
+
+#mystery-value {
+	margin-top: 2rem;
+	font-family: 'Architects Daughter', cursive;
+	font-size: 5rem;
+	letter-spacing: 25px;
+	width: 95vw;
+	max-width: 2000px;
+}
+
+#lives {
+	font-family: 'Architects Daughter', cursive;
+	color: #fff;
+	background-color: rgb(41, 104, 41);
+	border-radius: 10px;
+	padding: 0.5rem 1rem;
+	font-size: 2rem;
+	font-weight: 900;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}

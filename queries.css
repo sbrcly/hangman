@@ -1,0 +1,9 @@
+@media (max-height: 800px) {
+	html {
+		font-size: 12px;
+	}
+
+	#page-heading {
+		margin-bottom: 3rem;
+	}
+}
