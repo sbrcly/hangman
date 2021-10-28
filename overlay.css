@@ -1,0 +1,109 @@
+.game-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: transparent;
+	display: flex;
+	z-index: -1;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+}
+
+#hangman-game.win *,
+#hangman-game.lose * {
+	opacity: 0.1;
+	transition: all 1s;
+}
+
+.game-overlay h1 {
+	font-family: 'Architects Daughter', cursive;
+	text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+	font-size: 10rem;
+	transform: scale(0);
+	opacity: 0;
+}
+
+#win-overlay h1 {
+	color: rgb(41, 104, 41);
+}
+
+#lose-overlay h1 {
+	color: rgb(104, 41, 41);
+}
+
+#hangman-game.win #win-overlay {
+	z-index: 1;
+	opacity: 1;
+	transition: all 1s;
+}
+
+#hangman-game.lose #lose-overlay {
+	z-index: 1;
+	opacity: 1;
+	transition: all 1s;
+}
+
+#hangman-game.win #win-overlay h1 {
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-in;
+}
+
+#hangman-game.lose #lose-overlay h1 {
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-in;
+}
+
+#hangman-game.displayWinningStats #page-heading,
+#hangman-game.displayWinningStats #instructions,
+#hangman-game.displayWinningStats #alphabet-buttons,
+#hangman-game.displayWinningStats #category,
+#hangman-game.displayWinningStats #mystery-value,
+#hangman-game.displayWinningStats #lives-remaining {
+	opacity: 0;
+}
+
+#hangman-game.displayWinningStats #stats {
+	opacity: 1;
+}
+
+#hangman-game.displayWinningStats #win-overlay {
+	top: 0;
+	left: 0;
+	transform: translate(0);
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	text-align: left;
+	line-height: 1.5;
+	padding: 0 3rem;
+}
+
+#hangman-game.displayWinningStats #movie-title {
+	font-family: 'Montserrat', sans-serif;
+	margin: 2rem 0;
+	color: #fff;
+}
+
+#hangman-game.displayWinningStats #win-overlay h2 {
+	max-width: 50vw;
+	font-size: 2rem;
+	font-weight: 400;
+	color: #fff;
+	opacity: 1;
+}
+
+#hangman-game.displayWinningStats #win-overlay img {
+	height: 90%;
+	align-self: center;
+	opacity: 1;
+	padding: 0;
+	border-radius: 25px;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.733);
+}

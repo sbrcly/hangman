@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/overlay.css">
     <link rel="stylesheet" href="/queries.css">
 </head>
 <body>
@@ -23,7 +24,8 @@
     </nav>
     <section id="hangman-game">
         <div class="game-overlay" id="win-overlay">
-            <h1>You Win!!</h1>
+            <h1 id="initial-win-heading">You Win!!</h1>
+            <div id="stats"></div>
         </div>
         <div class="game-overlay" id="lose-overlay">
             <h1>You Lose!!</h1>

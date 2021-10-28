@@ -5,6 +5,8 @@ const mysteryValueHolder = document.querySelector('#mystery-value');
 const livesLeft = document.querySelector('#lives');
 const gameContainer = document.querySelector('#hangman-game');
 const difficultyBtn = document.querySelector('#difficulty');
+const initialWinHeading = document.querySelector('#initial-win-heading');
+const winOverlay = document.querySelector('#win-overlay');
 
 let lives;
 

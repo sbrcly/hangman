@@ -145,11 +145,68 @@ class Game {
                         i: result
                     }
                 });
-                console.log(response.data);
+                this.parseMysteryTermInfo(response.data);
             };
-            fetchData();
+            setTimeout(() => {
+                fetchData();
+            }, 2000);
         })
+    };
+    parseMysteryTermInfo = (mysteryTermInfo) => {
+        console.log(mysteryTermInfo);
+        this.movieTitle = mysteryTermInfo.Title;
+        this.boxOffice = mysteryTermInfo.BoxOffice;
+        this.actors = mysteryTermInfo.Actors;
+        this.awards = mysteryTermInfo.Awards
+        this.plot = mysteryTermInfo.Plot;
+        this.ratings = mysteryTermInfo.Ratings[0].Value;
+        this.poster = mysteryTermInfo.Poster;
+
+        this.displayMysteryTermInfo();
     }
+    displayMysteryTermInfo = () => {;
+        const statsContainer = document.querySelector('#stats');
+        initialWinHeading.remove();
+        this.gameContainer.classList.add('displayWinningStats');
+        const movieStats = [];
+
+        const title = document.createElement('h1');
+        title.id = 'movie-title';
+        title.innerText = this.movieTitle;
+
+        const profit = document.createElement('h2');
+        profit.id = 'profit';
+        profit.innerText = `Total Box Office Revenue: ${this.boxOffice}`;
+
+        const actors = document.createElement('h2');
+        actors.id = 'actors';
+        actors.innerText = `Actors: ${this.actors}`;
+
+        const awards = document.createElement('h2');
+        awards.id = 'awards';
+        awards.innerText = `Awards: ${this.awards}`;
+
+        const plot = document.createElement('h2');
+        plot.id = 'plot';
+        plot.innerText = `Plot: ${this.plot}`;
+
+        const rating = document.createElement('h2');
+        rating.id = 'rating';
+        rating.innerText = `IMDB Rating: ${this.ratings}`;
+
+        const poster = document.createElement('img');
+        poster.id = 'movie-poster';
+        poster.src = this.poster;
+
+        movieStats.push(title, profit, rating, plot);
+        for (let stat of movieStats) {
+            if (stat.innerText !== 'undefined') {
+                stats.append(title, profit, actors, awards, rating, plot);
+            };
+        };
+
+        winOverlay.append(poster);
+    };
     gameOver = () => {
         for (let letter of this.letterBtns) {
             letter.disabled = true;
