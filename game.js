@@ -126,6 +126,7 @@ class Game {
         this.difficultyBtn.style.opacity = 0;
         if (this.chosenCat === 'movies') this.fetchWinningTerm('https://www.omdbapi.com/', '52fb1527');
         if (this.chosenCat === 'cities') this.fetchWinningTerm('https://api.api-ninjas.com/v1/city', 'MS3gbqI7BDlr66td1tMUfA==IctSDvwtD8NA9Syt');
+        if (this.chosenCat === 'tv shows') this.fetchWinningTerm('https://api.tvmaze.com/search/shows', 'dCU23LPubvTssTFr9_d80prYh3nE0KgE');
     };
     fetchWinningTerm = (url, apikey) => {
         const fetchData = async () => {
@@ -156,6 +157,18 @@ class Game {
                         console.log(response.data);
                     }, 2000);
             };
+            if (this.chosenCat === 'tv shows') {
+                const response = await axios.get(url, {
+                    params: {
+                        apikey: apikey,
+                        q: this.mysteryTerm
+                    }
+                });
+                setTimeout(() => {
+                    this.parseMysteryTermInfo(response.data[0].show);
+                    console.log(response.data[0].show);
+                }, 2000);
+            }
         }
         fetchData()
         .then((result) => {
@@ -167,6 +180,7 @@ class Game {
                             i: result,
                         }
                     });
+                    console.log(response);
                     this.parseMysteryTermInfo(response.data);
                 };
                 setTimeout(() => {
@@ -192,6 +206,14 @@ class Game {
             this.longitude = mysteryTermInfo.longitude;
             this.country = mysteryTermInfo.country;
         }
+        if (this.chosenCat === 'tv shows') {
+            this.showName = mysteryTermInfo.name;
+            this.genre = mysteryTermInfo.genres[0];
+            this.showRating = mysteryTermInfo.rating.average;
+            this.premierDate = mysteryTermInfo.premiered;
+            this.showPlot = mysteryTermInfo.summary;
+            this.showImg = mysteryTermInfo.image.original;
+        }
         this.displayMysteryTermInfo();
     }
     displayMysteryTermInfo = () => {;
@@ -199,31 +221,24 @@ class Game {
         this.gameContainer.classList.add('displayWinningStats');
         if (this.chosenCat === 'movies') {
             const movieStats = [];
-
             const title = document.createElement('h1');
             title.id = 'term-header';
             title.innerText = this.movieTitle;
-    
             const profit = document.createElement('h2');
             profit.id = 'profit';
             profit.innerText = `Total Box Office Revenue: ${this.boxOffice}`;
-    
             const actors = document.createElement('h2');
             actors.id = 'actors';
             actors.innerText = `Actors: ${this.actors}`;
-    
             const awards = document.createElement('h2');
             awards.id = 'awards';
             awards.innerText = `Awards: ${this.awards}`;
-    
             const plot = document.createElement('h2');
             plot.id = 'plot';
-            plot.innerText = `Plot: ${this.plot}`;
-    
+            plot.innerText = `${this.plot}`;
             const rating = document.createElement('h2');
             rating.id = 'rating';
             rating.innerText = `IMDB Rating: ${this.ratings}`;
-    
             const poster = document.createElement('img');
             poster.id = 'movie-poster';
             poster.src = this.poster;
@@ -238,23 +253,18 @@ class Game {
         }
         if (this.chosenCat === 'cities') {
             const cityStats = [];
-
             const cityName = document.createElement('h1');
             cityName.id = 'term-header';
             cityName.innerText = this.cityName;
-    
             const population = document.createElement('h2');
             population.id = 'population';
             population.innerText = `Population: ${this.population}`;
-    
             const latitude = document.createElement('h2');
             latitude.id = 'latitude';
             latitude.innerText = `Latitude: ${this.latitude}`;
-    
             const longitude = document.createElement('h2');
             longitude.id = 'longitude';
             longitude.innerText = `Longitude: ${this.longitude}`;
-    
             const country = document.createElement('h2');
             country.id = 'country';
             country.innerText = `Country: ${this.country}`;
@@ -265,6 +275,35 @@ class Game {
                     stats.append(stat);
                 };
             };
+        };
+        if (this.chosenCat === 'tv shows') {
+            const showStats = [];
+            const showName = document.createElement('h1');
+            showName.id = 'term-header';
+            showName.innerText = this.showName;
+            const genre = document.createElement('h2');
+            genre.id = 'genre';
+            genre.innerText = `Genre: ${this.genre}`;
+            const showRating = document.createElement('h2');
+            showRating.id = 'showRating';
+            showRating.innerText = `Rating: ${this.showRating}`;
+            const premierDate = document.createElement('h2');
+            premierDate.id = 'premierDate';
+            premierDate.innerText = `Premier Date: ${this.premierDate}`;
+            const showPlot = document.createElement('h2');
+            showPlot.id = 'showPlot';
+            showPlot.innerHTML = `${this.showPlot}`;
+            const showImg = document.createElement('img');
+            showImg.id = 'show-img';
+            showImg.src = this.showImg;
+    
+            showStats.push(showName, genre, showRating, premierDate, showPlot);
+            for (let stat of showStats) {
+                if (stat.innerText !== 'undefined') {
+                    stats.append(stat);
+                };
+            };
+            winOverlay.append(showImg);
         }
     };
     gameOver = () => {

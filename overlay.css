@@ -87,11 +87,22 @@
 
 #hangman-game.displayWinningStats #term-header {
 	font-family: 'Montserrat', sans-serif;
+	font-size: 5rem;
 	margin: 2rem 0;
 	color: #fff;
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 {
+	max-width: 40vw;
+	font-size: 1.5rem;
+	font-weight: 400;
+	color: #fff;
+	opacity: 1;
+}
+
+#hangman-game.displayWinningStats #win-overlay h2 b,
+#hangman-game.displayWinningStats #win-overlay h2 p,
+#hangman-game.displayWinningStats #win-overlay h2 i {
 	max-width: 40vw;
 	font-size: 1.5rem;
 	font-weight: 400;

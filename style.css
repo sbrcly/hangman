@@ -15,7 +15,7 @@ body {
 	background-image: linear-gradient(rgb(34, 34, 34, 0.7), rgb(25, 25, 25));
 	background-size: cover;
 	color: #eee;
-	overflow: hidden;
+	overflow-x: hidden;
 }
 
 #navbar {
