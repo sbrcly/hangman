@@ -124,88 +124,148 @@ class Game {
         this.gameContainer.classList.add('win');
         this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
         this.difficultyBtn.style.opacity = 0;
-        if (this.chosenCat === 'movies') this.fetchWinningTerm();
+        if (this.chosenCat === 'movies') this.fetchWinningTerm('https://www.omdbapi.com/', '52fb1527');
+        if (this.chosenCat === 'cities') this.fetchWinningTerm('https://api.api-ninjas.com/v1/city', 'MS3gbqI7BDlr66td1tMUfA==IctSDvwtD8NA9Syt');
     };
-    fetchWinningTerm = () => {
+    fetchWinningTerm = (url, apikey) => {
         const fetchData = async () => {
-            const response = await axios.get('https://www.omdbapi.com/', {
-                params: {
-                    apikey: '52fb1527',
-                    s: this.mysteryTerm
-                }
-            });
-            return response.data.Search[0].imdbID;
-        };
-        fetchData()
-        .then((result) => {
-            const fetchData = async () => {
-                const response = await axios.get('https://www.omdbapi.com/', {
+            if (this.chosenCat === 'movies') {
+                const response = await axios.get(url, {
                     params: {
-                        apikey: '52fb1527',
-                        i: result
+                        apikey: apikey,
+                        s: this.mysteryTerm,
                     }
                 });
-                this.parseMysteryTermInfo(response.data);
+                if (response.data.Search.length > 1) {
+                    return response.data.Search[0].imdbID;
+                }   else {
+                    return response.data.Search.imdbID;
+                }
+            }
+            if (this.chosenCat === 'cities') {
+                const response = await axios.get(url, {
+                    params: {
+                        name: this.mysteryTerm
+                    },
+                    headers: {
+                        'X-Api-Key': apikey
+                    }
+                });
+                    setTimeout(() => {
+                        this.parseMysteryTermInfo(response.data[0]);
+                        console.log(response.data);
+                    }, 2000);
             };
-            setTimeout(() => {
-                fetchData();
-            }, 2000);
+        }
+        fetchData()
+        .then((result) => {
+            if (this.chosenCat === 'movies') {
+                const fetchData = async () => {
+                    const response = await axios.get(url, {
+                        params: {
+                            apikey: apikey,
+                            i: result,
+                        }
+                    });
+                    this.parseMysteryTermInfo(response.data);
+                };
+                setTimeout(() => {
+                    fetchData();
+                }, 2000);
+            } 
         })
     };
     parseMysteryTermInfo = (mysteryTermInfo) => {
-        console.log(mysteryTermInfo);
-        this.movieTitle = mysteryTermInfo.Title;
-        this.boxOffice = mysteryTermInfo.BoxOffice;
-        this.actors = mysteryTermInfo.Actors;
-        this.awards = mysteryTermInfo.Awards
-        this.plot = mysteryTermInfo.Plot;
-        this.ratings = mysteryTermInfo.Ratings[0].Value;
-        this.poster = mysteryTermInfo.Poster;
-
+        if (this.chosenCat === 'movies') {
+            this.movieTitle = mysteryTermInfo.Title;
+            this.boxOffice = mysteryTermInfo.BoxOffice;
+            this.actors = mysteryTermInfo.Actors;
+            this.awards = mysteryTermInfo.Awards
+            this.plot = mysteryTermInfo.Plot;
+            this.ratings = mysteryTermInfo.Ratings[0].Value;
+            this.poster = mysteryTermInfo.Poster;
+        }
+        if (this.chosenCat === 'cities') {
+            this.cityName = mysteryTermInfo.name;
+            this.population = mysteryTermInfo.population;
+            this.latitude = mysteryTermInfo.latitude;
+            this.longitude = mysteryTermInfo.longitude;
+            this.country = mysteryTermInfo.country;
+        }
         this.displayMysteryTermInfo();
     }
     displayMysteryTermInfo = () => {;
-        const statsContainer = document.querySelector('#stats');
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
-        const movieStats = [];
+        if (this.chosenCat === 'movies') {
+            const movieStats = [];
 
-        const title = document.createElement('h1');
-        title.id = 'movie-title';
-        title.innerText = this.movieTitle;
-
-        const profit = document.createElement('h2');
-        profit.id = 'profit';
-        profit.innerText = `Total Box Office Revenue: ${this.boxOffice}`;
-
-        const actors = document.createElement('h2');
-        actors.id = 'actors';
-        actors.innerText = `Actors: ${this.actors}`;
-
-        const awards = document.createElement('h2');
-        awards.id = 'awards';
-        awards.innerText = `Awards: ${this.awards}`;
-
-        const plot = document.createElement('h2');
-        plot.id = 'plot';
-        plot.innerText = `Plot: ${this.plot}`;
-
-        const rating = document.createElement('h2');
-        rating.id = 'rating';
-        rating.innerText = `IMDB Rating: ${this.ratings}`;
-
-        const poster = document.createElement('img');
-        poster.id = 'movie-poster';
-        poster.src = this.poster;
-
-        movieStats.push(title, profit, rating, plot);
-        for (let stat of movieStats) {
-            if (stat.innerText !== 'undefined') {
-                stats.append(title, profit, actors, awards, rating, plot);
+            const title = document.createElement('h1');
+            title.id = 'term-header';
+            title.innerText = this.movieTitle;
+    
+            const profit = document.createElement('h2');
+            profit.id = 'profit';
+            profit.innerText = `Total Box Office Revenue: ${this.boxOffice}`;
+    
+            const actors = document.createElement('h2');
+            actors.id = 'actors';
+            actors.innerText = `Actors: ${this.actors}`;
+    
+            const awards = document.createElement('h2');
+            awards.id = 'awards';
+            awards.innerText = `Awards: ${this.awards}`;
+    
+            const plot = document.createElement('h2');
+            plot.id = 'plot';
+            plot.innerText = `Plot: ${this.plot}`;
+    
+            const rating = document.createElement('h2');
+            rating.id = 'rating';
+            rating.innerText = `IMDB Rating: ${this.ratings}`;
+    
+            const poster = document.createElement('img');
+            poster.id = 'movie-poster';
+            poster.src = this.poster;
+    
+            movieStats.push(title, profit, actors, awards, rating, plot);
+            for (let stat of movieStats) {
+                if (stat.innerText !== 'undefined') {
+                    stats.append(stat);
+                };
             };
-        };
+            winOverlay.append(poster);
+        }
+        if (this.chosenCat === 'cities') {
+            const cityStats = [];
 
-        winOverlay.append(poster);
+            const cityName = document.createElement('h1');
+            cityName.id = 'term-header';
+            cityName.innerText = this.cityName;
+    
+            const population = document.createElement('h2');
+            population.id = 'population';
+            population.innerText = `Population: ${this.population}`;
+    
+            const latitude = document.createElement('h2');
+            latitude.id = 'latitude';
+            latitude.innerText = `Latitude: ${this.latitude}`;
+    
+            const longitude = document.createElement('h2');
+            longitude.id = 'longitude';
+            longitude.innerText = `Longitude: ${this.longitude}`;
+    
+            const country = document.createElement('h2');
+            country.id = 'country';
+            country.innerText = `Country: ${this.country}`;
+    
+            cityStats.push(cityName, population, latitude, longitude, country);
+            for (let stat of cityStats) {
+                if (stat.innerText !== 'undefined') {
+                    stats.append(stat);
+                };
+            };
+        }
     };
     gameOver = () => {
         for (let letter of this.letterBtns) {

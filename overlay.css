@@ -78,29 +78,29 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: flex-start;
 	text-align: left;
 	line-height: 1.5;
 	padding: 0 3rem;
 }
 
-#hangman-game.displayWinningStats #movie-title {
+#hangman-game.displayWinningStats #term-header {
 	font-family: 'Montserrat', sans-serif;
 	margin: 2rem 0;
 	color: #fff;
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 {
-	max-width: 50vw;
-	font-size: 2rem;
+	max-width: 40vw;
+	font-size: 1.5rem;
 	font-weight: 400;
 	color: #fff;
 	opacity: 1;
 }
 
 #hangman-game.displayWinningStats #win-overlay img {
-	height: 90%;
+	height: 80%;
 	align-self: center;
 	opacity: 1;
 	padding: 0;
