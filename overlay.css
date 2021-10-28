@@ -90,10 +90,11 @@
 	font-size: 5rem;
 	margin: 2rem 0;
 	color: #fff;
+	max-width: 40vw;
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 {
-	max-width: 40vw;
+	max-width: 50vw;
 	font-size: 1.5rem;
 	font-weight: 400;
 	color: #fff;
@@ -103,7 +104,7 @@
 #hangman-game.displayWinningStats #win-overlay h2 b,
 #hangman-game.displayWinningStats #win-overlay h2 p,
 #hangman-game.displayWinningStats #win-overlay h2 i {
-	max-width: 40vw;
+	max-width: 70vw;
 	font-size: 1.5rem;
 	font-weight: 400;
 	color: #fff;
@@ -111,7 +112,7 @@
 }
 
 #hangman-game.displayWinningStats #win-overlay img {
-	height: 80%;
+	height: 60%;
 	align-self: center;
 	opacity: 1;
 	padding: 0;

@@ -1,5 +1,6 @@
 class Game {
-    constructor(gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft) {
+    constructor(mysteryTerms, gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft) {
+        this.mysteryTerms = mysteryTerms;
         this.gameContainer = gameContainer;
         this.letterBtns = letterBtns;
         this.difficultyBtn = difficultyBtn;
@@ -33,6 +34,22 @@ class Game {
 
         this.chooseMysteryValue();
     };
+    chooseMysteryValue = () => {
+        this.resetGame();
+        this.chosenCat = this.categoryOptions.value;
+        let randomValue = Math.floor(Math.random() * this.mysteryTerms[this.chosenCat].length);
+        this.mysteryTerm = this.mysteryTerms[this.chosenCat][randomValue];
+
+        this.displayMysteryTerm();
+    };
+    displayMysteryTerm = () => {
+        let placeholder = this.mysteryTerm;
+        for (let char of alphabet) {
+           this.hideTerm = placeholder.toLowerCase().replaceAll(`${char}`, '_');
+           placeholder = this.hideTerm;
+           this.mysteryValueHolder.innerText = this.hideTerm;
+        };
+    };
     pickLetterClick = (letter) => {
         letter.disabled = true;
         if (this.mysteryTerm.toLowerCase().indexOf(letter.id) != -1) {
@@ -63,29 +80,6 @@ class Game {
                     if (this.livesLeft.innerText == 0) this.gameOver();
                 };
             };
-        };
-    };
-    changeDifficulty = () => {
-        if (this.difficultyBtn.value === 'easy') this.livesLeft.innerText = 9; 
-        if (this.difficultyBtn.value === 'medium') this.livesLeft.innerText = 6;
-        if (this.difficultyBtn.value === 'hard') this.livesLeft.innerText = 4
-        this.resetGame();
-        this.displayMysteryTerm();
-    }
-    chooseMysteryValue = () => {
-        this.resetGame();
-        this.chosenCat = this.categoryOptions.value;
-        const getCatIndex = categories.indexOf(this.chosenCat);
-        const random = Math.floor(Math.random() * mysteryTerms[getCatIndex].length);
-        this.mysteryTerm = mysteryTerms[getCatIndex][random];
-        this.displayMysteryTerm();
-    };
-    displayMysteryTerm = () => {
-        let placeholder = this.mysteryTerm;
-        for (let char of alphabet) {
-           this.hideTerm = placeholder.toLowerCase().replaceAll(`${char}`, '_');
-           placeholder = this.hideTerm;
-           this.mysteryValueHolder.innerText = this.hideTerm;
         };
     };
     displayLetter = (letter) => {
@@ -127,6 +121,8 @@ class Game {
         if (this.chosenCat === 'movies') this.fetchWinningTerm('https://www.omdbapi.com/', '52fb1527');
         if (this.chosenCat === 'cities') this.fetchWinningTerm('https://api.api-ninjas.com/v1/city', 'MS3gbqI7BDlr66td1tMUfA==IctSDvwtD8NA9Syt');
         if (this.chosenCat === 'tv shows') this.fetchWinningTerm('https://api.tvmaze.com/search/shows', 'dCU23LPubvTssTFr9_d80prYh3nE0KgE');
+        if (this.chosenCat === 'books') this.fetchWinningTerm('https://www.googleapis.com/books/v1/volumes', 'AIzaSyDTLD8MbAuYOggXGHaWn20ztduh92IIg3o');
+        if (this.chosenCat === 'people') this.fetchWinningTerm('https://api.api-ninjas.com/v1/celebrity', 'MS3gbqI7BDlr66td1tMUfA==IctSDvwtD8NA9Syt')
     };
     fetchWinningTerm = (url, apikey) => {
         const fetchData = async () => {
@@ -168,6 +164,32 @@ class Game {
                     this.parseMysteryTermInfo(response.data[0].show);
                     console.log(response.data[0].show);
                 }, 2000);
+            };
+            if (this.chosenCat === 'books') {
+                const response = await axios.get(url, {
+                    params: {
+                        key: apikey,
+                        q: this.mysteryTerm
+                    }
+                });
+                setTimeout(() => {
+                    console.log(response.data.items[0].volumeInfo);
+                    this.parseMysteryTermInfo(response.data.items[0].volumeInfo);
+                }, 2000);
+            };
+            if (this.chosenCat === 'people') {
+                const response = await axios.get(url, {
+                    params: {
+                        name: this.mysteryTerm
+                    },
+                    headers: {
+                        'X-Api-Key': apikey
+                    }
+                });
+                setTimeout(() => {
+                    this.parseMysteryTermInfo(response.data[0]);
+                    console.log(response.data[0]);
+                }, 2000);
             }
         }
         fetchData()
@@ -190,6 +212,15 @@ class Game {
         })
     };
     parseMysteryTermInfo = (mysteryTermInfo) => {
+        if (this.chosenCat === 'books') {
+            this.bookTitle = mysteryTermInfo.title;
+            if (mysteryTermInfo.subtitle) this.subtitle = mysteryTermInfo.subtitle;
+            this.author = mysteryTermInfo.authors[0];
+            if (mysteryTermInfo.categories) this.bookGenre = mysteryTermInfo.categories[0];
+            if (mysteryTermInfo.averageRating) this.bookRating = mysteryTermInfo.averageRating;
+            this.bookSummary = mysteryTermInfo.description;
+            this.bookImg = mysteryTermInfo.imageLinks.thumbnail;
+        }
         if (this.chosenCat === 'movies') {
             this.movieTitle = mysteryTermInfo.Title;
             this.boxOffice = mysteryTermInfo.BoxOffice;
@@ -214,11 +245,88 @@ class Game {
             this.showPlot = mysteryTermInfo.summary;
             this.showImg = mysteryTermInfo.image.original;
         }
+        if (this.chosenCat === 'people') {
+            this.personName = mysteryTermInfo.name;
+            this.birthday = mysteryTermInfo.birthdy;
+            this.death = mysteryTermInfo.death;
+            this.nationality = mysteryTermInfo.nationality;
+            this.occupation = mysteryTermInfo.occupation[0];
+            this.netWorth = mysteryTermInfo.net_worth;
+        }
         this.displayMysteryTermInfo();
     }
     displayMysteryTermInfo = () => {;
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
+        if (this.chosenCat === 'people') {
+            const personStats = [];
+            const personName = document.createElement('h1');
+            personName.id = 'term-header';
+            personName.innerText = this.personName;
+            const birthday = document.createElement('h2');
+            birthday.id = 'birthday';
+            birthday.innerText = `Birthday: ${this.birthday}`;
+            const death = document.createElement('h2');
+            death.id = 'death';
+            if (this.death === undefined) {
+                death.innerText = 'Death: Still living'
+            }   else {
+                console.log(this.death);
+                death.innerText = `Death: ${this.death}`;
+            }
+            const nationality = document.createElement('h2');
+            nationality.id = 'nationality';
+            nationality.innerText = `Nationality: ${this.nationality.toUpperCase()}`;
+            const occupation = document.createElement('h2');
+            occupation.id = 'occupation';
+            occupation.innerText = `Occupation: ${this.occupation.replaceAll('_', ' ')}`;
+            const netWorth = document.createElement('h2');
+            netWorth.id = 'net-worth';
+            netWorth.innerText = `Net Worth: $${this.netWorth}`;
+    
+            personStats.push(personName, birthday, death, nationality, occupation, netWorth);
+            setTimeout(() => {
+                for (let stat of personStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    }
+                };
+            }, 500);
+        };
+        if (this.chosenCat === 'books') {
+            const bookStats = [];
+            const bookTitle = document.createElement('h1');
+            bookTitle.id = 'term-header';
+            bookTitle.innerText = this.bookTitle;
+            const subtitle = document.createElement('h2');
+            subtitle.id = 'subtitle';
+            subtitle.innerText = this.subtitle;
+            const author = document.createElement('h2');
+            author.id = 'author';
+            author.innerText = `Author: ${this.author}`;
+            const bookGenre = document.createElement('h2');
+            bookGenre.id = 'book-genre';
+            bookGenre.innerText = `Genre: ${this.bookGenre}`;
+            const bookRating = document.createElement('h2');
+            bookRating.id = 'book-rating';
+            bookRating.innerText = `Rating: ${this.bookRating}`;
+            const bookSummary = document.createElement('h2');
+            bookSummary.id = 'book-summary';
+            bookSummary.innerText = this.bookSummary;
+            const bookImg = document.createElement('img');
+            bookImg.id = 'book-image';
+            bookImg.src = this.bookImg;
+    
+            bookStats.push(bookTitle, subtitle, author, bookGenre, bookRating, bookSummary);
+            setTimeout(() => {
+                for (let stat of bookStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    };
+                };
+                winOverlay.append(bookImg);
+            }, 1000);
+        }
         if (this.chosenCat === 'movies') {
             const movieStats = [];
             const title = document.createElement('h1');
@@ -244,12 +352,14 @@ class Game {
             poster.src = this.poster;
     
             movieStats.push(title, profit, actors, awards, rating, plot);
-            for (let stat of movieStats) {
-                if (stat.innerText !== 'undefined') {
-                    stats.append(stat);
+            setTimeout(() => {
+                for (let stat of movieStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    };
                 };
-            };
-            winOverlay.append(poster);
+                winOverlay.append(poster);
+            }, 1000);
         }
         if (this.chosenCat === 'cities') {
             const cityStats = [];
@@ -270,11 +380,13 @@ class Game {
             country.innerText = `Country: ${this.country}`;
     
             cityStats.push(cityName, population, latitude, longitude, country);
-            for (let stat of cityStats) {
-                if (stat.innerText !== 'undefined') {
-                    stats.append(stat);
+            setTimeout(() => {
+                for (let stat of cityStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    };
                 };
-            };
+            }, 500);
         };
         if (this.chosenCat === 'tv shows') {
             const showStats = [];
@@ -298,12 +410,14 @@ class Game {
             showImg.src = this.showImg;
     
             showStats.push(showName, genre, showRating, premierDate, showPlot);
-            for (let stat of showStats) {
-                if (stat.innerText !== 'undefined') {
-                    stats.append(stat);
+            setTimeout(() => {
+                for (let stat of showStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    };
                 };
-            };
-            winOverlay.append(showImg);
+                winOverlay.append(showImg);
+            }, 1000);
         }
     };
     gameOver = () => {
@@ -315,6 +429,13 @@ class Game {
         this.mysteryValueHolder.innerText = this.mysteryTerm;
         this.difficultyBtn.style.opacity = 0;
     };
+    changeDifficulty = () => {
+        if (this.difficultyBtn.value === 'easy') this.livesLeft.innerText = 9; 
+        if (this.difficultyBtn.value === 'medium') this.livesLeft.innerText = 6;
+        if (this.difficultyBtn.value === 'hard') this.livesLeft.innerText = 4
+        this.resetGame();
+        this.displayMysteryTerm();
+    }
     resetGame = () => {
         this.shownLetters = [];
         for (let letter of this.letterBtns) {
