@@ -118,9 +118,11 @@ class Game {
         this.gameContainer.classList.add('win');
         this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
         this.difficultyBtn.style.opacity = 0;
-        if (this.chosenCat === 'movies') this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
+        if (this.chosenCat === 'movies' || this.chosenCat === 'tv shows') {
+            this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
+        }
         if (this.chosenCat === 'cities') this.fetchWinningTerm('https://en.wikipedia.org/w/api.php', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
-        if (this.chosenCat === 'tv shows') this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
+        // if (this.chosenCat === 'tv shows') this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
         if (this.chosenCat === 'books') this.fetchWinningTerm('https://www.googleapis.com/books/v1/volumes', 'AIzaSyDTLD8MbAuYOggXGHaWn20ztduh92IIg3o');
     };
     fetchWinningTerm = (url, apikey) => {
@@ -137,7 +139,7 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                if (response.data.tv_results.length) {
+                // if (response.data.tv_results.length) {
                     const shows = [];
                     for (let show of response.data.tv_results) {
                         if (show.title.length === this.mysteryTerm.length) {
@@ -145,9 +147,6 @@ class Game {
                         }
                     }
                     return shows[0].imdb_id;
-                }   else {
-                    return response.data.tv_results[0].imdb_id;
-                }
             };
             if (this.chosenCat === 'movies') {
                 const response = await axios.get(url, {
@@ -160,7 +159,6 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                if (response.data.movie_results.length) {
                     const movies = [];
                     for (let movie of response.data.movie_results) {
                         if (movie.title.length === this.mysteryTerm.length) {
@@ -168,9 +166,6 @@ class Game {
                         }
                     }
                     return movies[0].imdb_id;
-                }   else {
-                    return response.data.movie_results[0].imdb_id;
-                }
             }
             if (this.chosenCat === 'cities') {
                 const response = await axios.get(url, {
@@ -296,9 +291,9 @@ class Game {
             this.showActors = mysteryTermInfo.stars;
             this.showPlot = mysteryTermInfo.description;
         }
-        this.displayMysteryTermInfo();
+        this.displayMysteryTermInfo(mysteryTermInfo);
     }
-    displayMysteryTermInfo = () => {
+    displayMysteryTermInfo = (mysteryTermInfo) => {
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
         if (this.chosenCat === 'tv shows') {
@@ -333,6 +328,26 @@ class Game {
                     };
                 };
             }, 2000);
+            const fetchData = async () => {
+                const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
+                    params: {
+                        type: 'get-show-images-by-imdb',
+                        imdb: mysteryTermInfo.imdb_id
+                    },
+                    headers: {
+                        'x-rapidapi-host': 'movies-tvshows-data-imdb.p.rapidapi.com',
+                        'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
+                    }
+                })
+                console.log(response.data);
+                const showPoster = document.createElement('img');
+                showPoster.src = response.data.poster;
+                winOverlay.append(showPoster);
+            }
+            setTimeout(() => {
+                fetchData()
+            }, 1600);
+            
         }
         if (this.chosenCat === 'cities') {
             const cityStats = [];
@@ -398,8 +413,25 @@ class Game {
                         stats.append(stat);
                     };
                 };
-            
             }, 2000);
+            const fetchData = async () => {
+                const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
+                    params: {
+                        type: 'get-movies-images-by-imdb',
+                        imdb: mysteryTermInfo.imdb_id
+                    },
+                    headers: {
+                        'x-rapidapi-host': 'movies-tvshows-data-imdb.p.rapidapi.com',
+                        'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
+                    }
+                })
+                const moviePoster = document.createElement('img');
+                moviePoster.src = response.data.poster;
+                winOverlay.append(moviePoster);
+            }
+            setTimeout(() => {
+                fetchData()
+            }, 1600);
         }
         if (this.chosenCat === 'books') {
             const bookStats = [];
