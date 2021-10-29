@@ -63,7 +63,8 @@ class Game {
         };
     };
     pickLetterType = (e) => {
-        if (this.gameContainer.classList.contains('win') === false) {
+        if (this.gameContainer.classList.contains('win') === false &&
+            this.gameContainer.classList.contains('lose') === false) {
             if (this.mysteryTerm.toLowerCase().indexOf(e.key) != -1) {
                 for (let letter of this.letterBtns) {
                     if (letter.id === e.key) {
@@ -72,13 +73,13 @@ class Game {
                     };
                 };
             }   else {
-                for (let letter of this.letterBtns) {
-                    if (letter.id === e.key) {
-                        letter.disabled = true;
-                        letter.classList.add('wrong');
-                        this.livesLeft.innerText = this.livesLeft.innerText - 1;
-                        if (this.livesLeft.innerText < 4) this.livesLeft.style.backgroundColor = 'rgb(104, 41, 41)';
-                        if (this.livesLeft.innerText == 0) this.gameOver();
+                    for (let letter of this.letterBtns) {
+                        if (letter.id === e.key) {
+                            letter.disabled = true;
+                            letter.classList.add('wrong');
+                            this.livesLeft.innerText = this.livesLeft.innerText - 1;
+                            if (this.livesLeft.innerText < 4) this.livesLeft.style.backgroundColor = 'rgb(104, 41, 41)';
+                            if (this.livesLeft.innerText == 0) this.gameOver();
                     };
                 };
             };
@@ -276,9 +277,10 @@ class Game {
             this.showPlot = mysteryTermInfo.description;
         }
         if (this.chosenCat === 'random word') {
+            console.log(mysteryTermInfo);
             this.word = mysteryTermInfo.word;
             this.partOfSpeech = mysteryTermInfo.results[0].partOfSpeech;
-            this.syllables = mysteryTermInfo.syllables.count;
+            if (mysteryTermInfo.syllables) this.syllables = mysteryTermInfo.syllables.count;
             this.frequency = mysteryTermInfo.frequency;
             this.synonyms = mysteryTermInfo.results[0].synonyms;
             this.definition = mysteryTermInfo.results[0].definition;
