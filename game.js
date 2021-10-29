@@ -138,7 +138,10 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                this.parseMysteryTermInfo(response.data);
+                setTimeout(() => {
+                    this.parseMysteryTermInfo(response.data);
+
+                }, 1500);
             };
             if (this.chosenCat === 'tv shows') {
                 const response = await axios.get(url, {
@@ -273,7 +276,6 @@ class Game {
             this.showPlot = mysteryTermInfo.description;
         }
         if (this.chosenCat === 'random word') {
-            console.log('1', mysteryTermInfo);
             this.word = mysteryTermInfo.word;
             this.partOfSpeech = mysteryTermInfo.results[0].partOfSpeech;
             this.syllables = mysteryTermInfo.syllables.count;
@@ -287,7 +289,6 @@ class Game {
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
         if (this.chosenCat === 'random word') {
-            console.log(mysteryTermInfo);
             const wordStats = [];
             const word = document.createElement('h1');
             word.id = 'term-header';
@@ -328,9 +329,6 @@ class Game {
             const premierDate = document.createElement('h2');
             premierDate.id = 'premier-date';
             premierDate.innerText = `Premiered: ${this.premierDate}`;
-            // const genre = document.createElement('h2');
-            // genre.id = 'genre';
-            // genre.innerText = `Genre: ${this.genre}`;
             const showRating = document.createElement('h2');
             showRating.id = 'showRating';
             showRating.innerText = `Rating: ${this.showRating}`;
@@ -346,7 +344,6 @@ class Game {
     
             showStats.push(showTitle, premierDate, showRating, showCreators, showActors, showPlot);
             const fetchData = async () => {
-                // console.log(mysteryTermInfo.imdb_id);
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
                         type: 'get-show-images-by-imdb',
@@ -357,7 +354,6 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
-                // console.log(response.data);
                 const showPoster = document.createElement('img');
                 showPoster.src = response.data.poster;
                 setTimeout(() => {
@@ -397,7 +393,6 @@ class Game {
     
             movieStats.push(movieTitle, tagline, releaseYear, directors, mainCharacter, movieRating, moviePlot);
             const fetchData = async () => {
-                // console.log(mysteryTermInfo.imdb_id);
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
                         type: 'get-movies-images-by-imdb',
@@ -408,7 +403,6 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
-                // console.log(response.data);
                 const moviePoster = document.createElement('img');
                 moviePoster.src = response.data.poster;
                 setTimeout(() => {
