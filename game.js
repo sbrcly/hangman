@@ -63,21 +63,23 @@ class Game {
         };
     };
     pickLetterType = (e) => {
-        if (this.mysteryTerm.toLowerCase().indexOf(e.key) != -1) {
-            for (let letter of this.letterBtns) {
-                if (letter.id === e.key) {
-                    letter.classList.add('correct');
-                    this.displayLetter(letter);
+        if (this.gameContainer.classList.contains('win') === false) {
+            if (this.mysteryTerm.toLowerCase().indexOf(e.key) != -1) {
+                for (let letter of this.letterBtns) {
+                    if (letter.id === e.key) {
+                        letter.classList.add('correct');
+                        this.displayLetter(letter);
+                    };
                 };
-            };
-        }   else {
-            for (let letter of this.letterBtns) {
-                if (letter.id === e.key) {
-                    letter.disabled = true;
-                    letter.classList.add('wrong');
-                    this.livesLeft.innerText = this.livesLeft.innerText - 1;
-                    if (this.livesLeft.innerText < 4) this.livesLeft.style.backgroundColor = 'rgb(104, 41, 41)';
-                    if (this.livesLeft.innerText == 0) this.gameOver();
+            }   else {
+                for (let letter of this.letterBtns) {
+                    if (letter.id === e.key) {
+                        letter.disabled = true;
+                        letter.classList.add('wrong');
+                        this.livesLeft.innerText = this.livesLeft.innerText - 1;
+                        if (this.livesLeft.innerText < 4) this.livesLeft.style.backgroundColor = 'rgb(104, 41, 41)';
+                        if (this.livesLeft.innerText == 0) this.gameOver();
+                    };
                 };
             };
         };
@@ -160,16 +162,19 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                if (response.data.movie_results.length) {
+                console.log(response.data);
+                if (response.data.movie_results.imdb_id !== undefined) {
+                    console.log(`IF: ${response.data.movie_results}`);
+                    return response.data.movie_results.imdb_id; 
+                }   else {
                     const movies = [];
                     for (let movie of response.data.movie_results) {
                         if (movie.title.length === this.mysteryTerm.length) {
                             movies.push(movie);
                         }
                     }
+                    console.log(`Else: ${response.data.movie_results}`);
                     return movies[0].imdb_id;
-                }   else {
-                    return response.data.movie_results.imdb_id;
                 }
                     
             }         
