@@ -78,7 +78,7 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 	align-items: flex-start;
 	text-align: left;
 	line-height: 1.5;
