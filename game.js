@@ -398,6 +398,7 @@ class Game {
                         stats.append(stat);
                     };
                 };
+            
             }, 2000);
         }
         if (this.chosenCat === 'books') {
