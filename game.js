@@ -121,8 +121,6 @@ class Game {
         if (this.chosenCat === 'movies' || this.chosenCat === 'tv shows') {
             this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
         }
-        if (this.chosenCat === 'cities') this.fetchWinningTerm('https://en.wikipedia.org/w/api.php', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
-        // if (this.chosenCat === 'tv shows') this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
         if (this.chosenCat === 'books') this.fetchWinningTerm('https://www.googleapis.com/books/v1/volumes', 'AIzaSyDTLD8MbAuYOggXGHaWn20ztduh92IIg3o');
     };
     fetchWinningTerm = (url, apikey) => {
@@ -139,15 +137,18 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                // if (response.data.tv_results.length) {
+                if (response.data.tv_results.length > 1) {
                     const shows = [];
                     for (let show of response.data.tv_results) {
-                        if (show.title.length === this.mysteryTerm.length) {
+                        if (show.title === this.mysteryTerm) {
                             shows.push(show);
                         }
                     }
                     return shows[0].imdb_id;
-            };
+                }   else {
+                    return response.data.tv_results[0].imdb_id;
+                }
+            }
             if (this.chosenCat === 'movies') {
                 const response = await axios.get(url, {
                     params: {
@@ -159,6 +160,7 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
+                if (response.data.movie_results.length) {
                     const movies = [];
                     for (let movie of response.data.movie_results) {
                         if (movie.title.length === this.mysteryTerm.length) {
@@ -166,27 +168,11 @@ class Game {
                         }
                     }
                     return movies[0].imdb_id;
-            }
-            if (this.chosenCat === 'cities') {
-                const response = await axios.get(url, {
-                    params: {
-                        origin: '*',
-                        format: 'json',
-                        action: 'query',
-                        prop: 'pageprops',
-                        ppprop: 'wikibase_item',
-                        redirects: 1,
-                        titles: this.mysteryTerm
-                    }
-                });
-                let extractId = response.data.query.pages;
-                let pageId;
-                for (let key in extractId) {
-                    pageId = key;
+                }   else {
+                    return response.data.movie_results.imdb_id;
                 }
-                return extractId[pageId].pageprops.wikibase_item;
-            };
-            
+                    
+            }         
             if (this.chosenCat === 'books') {
                 const response = await axios.get(url, {
                     params: {
@@ -214,6 +200,8 @@ class Game {
                             'x-rapidapi-key': apikey
                         }
                     });
+                    // console.log(response.data);
+
                     this.parseMysteryTermInfo(response.data);
                 };
                 setTimeout(() => {
@@ -238,20 +226,6 @@ class Game {
                     fetchData();
                 }, 1500);
             };
-            if (this.chosenCat === 'cities') {
-                const fetchData = async () => {
-                    const response = await axios.get(`https://wft-geo-db.p.rapidapi.com/v1/geo/cities/${result}`, {
-                        headers: {
-                            'x-rapidapi-host': 'wft-geo-db.p.rapidapi.com',
-                            'x-rapidapi-key': apikey
-                        }
-                    });
-                    this.parseMysteryTermInfo(response.data.data);   
-                };
-                setTimeout(() => {
-                    fetchData()
-                }, 1500);
-            };
         });
     };
     parseMysteryTermInfo = (mysteryTermInfo) => {
@@ -273,19 +247,10 @@ class Game {
             this.movieRating = mysteryTermInfo.imdb_rating;
             this.moviePlot = mysteryTermInfo.description;
         }
-        if (this.chosenCat === 'cities') {
-            this.cityName = mysteryTermInfo.name;
-            this.country = mysteryTermInfo.country;
-            this.population = mysteryTermInfo.population;
-            this.latitude = mysteryTermInfo.latitude;
-            this.longitude = mysteryTermInfo.longitude;
-            this.elevation = mysteryTermInfo.elevationMeters;
-            this.timeZone = mysteryTermInfo.timezone.replaceAll('_', ' ');
-        }
         if (this.chosenCat === 'tv shows') {
             this.showTitle = mysteryTermInfo.title;
             this.premierDate = mysteryTermInfo.year_started;
-            this.genre = mysteryTermInfo.genres[0];
+            // this.genre = mysteryTermInfo.genres[0];
             this.showRating = mysteryTermInfo.imdb_rating;
             this.showCreators = mysteryTermInfo.creators;
             this.showActors = mysteryTermInfo.stars;
@@ -304,9 +269,9 @@ class Game {
             const premierDate = document.createElement('h2');
             premierDate.id = 'premier-date';
             premierDate.innerText = `Premiered: ${this.premierDate}`;
-            const genre = document.createElement('h2');
-            genre.id = 'genre';
-            genre.innerText = `Genre: ${this.genre}`;
+            // const genre = document.createElement('h2');
+            // genre.id = 'genre';
+            // genre.innerText = `Genre: ${this.genre}`;
             const showRating = document.createElement('h2');
             showRating.id = 'showRating';
             showRating.innerText = `Rating: ${this.showRating}`;
@@ -320,15 +285,9 @@ class Game {
             showPlot.id = 'showPlot';
             showPlot.innerHTML = `${this.showPlot}`;
     
-            showStats.push(showTitle, premierDate, genre, showRating, showCreators, showActors, showPlot);
-            setTimeout(() => {
-                for (let stat of showStats) {
-                    if (stat.innerText !== 'undefined') {
-                        stats.append(stat);
-                    };
-                };
-            }, 2000);
+            showStats.push(showTitle, premierDate, showRating, showCreators, showActors, showPlot);
             const fetchData = async () => {
+                // console.log(mysteryTermInfo.imdb_id);
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
                         type: 'get-show-images-by-imdb',
@@ -339,49 +298,20 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
-                console.log(response.data);
+                // console.log(response.data);
                 const showPoster = document.createElement('img');
                 showPoster.src = response.data.poster;
-                winOverlay.append(showPoster);
-            }
-            setTimeout(() => {
-                fetchData()
-            }, 1600);
-            
-        }
-        if (this.chosenCat === 'cities') {
-            const cityStats = [];
-            const cityName = document.createElement('h1');
-            cityName.id = 'term-header';
-            cityName.innerText = this.cityName;
-            const country = document.createElement('h2');
-            country.id = 'country';
-            country.innerText = this.country;
-            const population = document.createElement('h2');
-            population.id = 'population';
-            population.innerText = `Population: ${this.population}`;
-            const latitude = document.createElement('h2');
-            latitude.id = 'latitude';
-            latitude.innerText = `Latitude: ${this.latitude}`;
-            const longitude = document.createElement('h2');
-            longitude.id = 'longitude';
-            longitude.innerText = `Longitude: ${this.longitude}`;
-            const elevation = document.createElement('h2');
-            elevation.id = 'elevation';
-            elevation.innerText = `Elevation: ${this.elevation}`;
-            const timeZone = document.createElement('h2');
-            timeZone.id = 'time-zone';
-            timeZone.innerText = `Time Zone: ${this.timeZone}`;
-    
-            cityStats.push(cityName, country, population, latitude, longitude, elevation, timeZone);
-            setTimeout(() => {
-                for (let stat of cityStats) {
-                    if (stat.innerText !== 'undefined') {
-                        stats.append(stat);
+                setTimeout(() => {
+                    for (let stat of showStats) {
+                        if (stat.innerText !== 'undefined') {
+                            stats.append(stat);
+                        };
                     };
-                };
-            }, 2000);
-        };
+                    winOverlay.append(showPoster);
+                }, 1500);
+            }
+            fetchData();
+        }
         if (this.chosenCat === 'movies') {
             const movieStats = [];
             const movieTitle = document.createElement('h1');
@@ -398,7 +328,7 @@ class Game {
             directors.innerText = `Directors: ${this.directors}`;
             const mainCharacter = document.createElement('h2');
             mainCharacter.id = 'main-character';
-            mainCharacter.innerText = `Actors: ${this.actors[0]}`;
+            mainCharacter.innerText = `Main Actor/Actress: ${this.actors[0]}`;
             const movieRating = document.createElement('h2');
             movieRating.id = 'movie-rating';
             movieRating.innerText = `IMDB Rating: ${this.movieRating}`;
@@ -407,14 +337,8 @@ class Game {
             moviePlot.innerText = this.moviePlot;
     
             movieStats.push(movieTitle, tagline, releaseYear, directors, mainCharacter, movieRating, moviePlot);
-            setTimeout(() => {
-                for (let stat of movieStats) {
-                    if (stat.innerText !== 'undefined') {
-                        stats.append(stat);
-                    };
-                };
-            }, 2000);
             const fetchData = async () => {
+                // console.log(mysteryTermInfo.imdb_id);
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
                         type: 'get-movies-images-by-imdb',
@@ -425,13 +349,19 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
+                // console.log(response.data);
                 const moviePoster = document.createElement('img');
                 moviePoster.src = response.data.poster;
-                winOverlay.append(moviePoster);
+                setTimeout(() => {
+                    for (let stat of movieStats) {
+                        if (stat.innerText !== 'undefined') {
+                            stats.append(stat);
+                        };
+                    };
+                    winOverlay.append(moviePoster);
+                }, 1500);
             }
-            setTimeout(() => {
-                fetchData()
-            }, 1600);
+            fetchData();
         }
         if (this.chosenCat === 'books') {
             const bookStats = [];

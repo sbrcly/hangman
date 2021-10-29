@@ -13,9 +13,8 @@ let lives;
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 const mysteryTerms = {
-        cities: ['Saint George', 'Boulder City', 'Anaheim', 'Tijuana', 'Manchester', 'Saint Petersburg','Hong Kong','Fort Lauderdale','Virginia Beach','Boston','Las Vegas', 'London', 'Seattle', 'Salt Lake City', 'Mexico City', 'Mumbai', 'Rio De Janeiro', 'Buenos Aires', 'New York City'],
 
-        movies: ['Winnie the Pooh', 'Manchester by the Sea', 'Once Upon a Time In Hollywood', 'The Beauty and the Beast', 'Casablanca', 'The Grinch', 'Jingle All The Way', 'Jurassic Park', 'Toy Story', 'The Shawshank Redemption', 'The Godfather', 'Raiders of the Lost Ark', 'The Dark Knight', 'Jaws', 'Pulp Fiction', 'Good Will Hunting', 'The Truman Show', 'Lawrence of Arabia', 'Snow White and the Seven Dwarfs', 'Forrest Gump', 'Stand By Me', 'Back to the Future', 'Shrek', 'Saving Private Ryan', 'Titanic'],
+        movies: ['Winnie the Pooh', 'Manchester by the Sea', 'The Beauty and the Beast', 'Casablanca', 'The Grinch', 'Jingle All The Way', 'Jurassic Park', 'Toy Story', 'The Shawshank Redemption', 'The Godfather', 'Raiders of the Lost Ark', 'The Dark Knight', 'Jaws', 'Pulp Fiction', 'Good Will Hunting', 'The Truman Show', 'Lawrence of Arabia', 'Snow White and the Seven Dwarfs', 'Forrest Gump', 'Stand By Me', 'Back to the Future', 'Shrek', 'Saving Private Ryan', 'Titanic'],
 
         'tv shows': ['American Horror Stories', 'The Sopranos', 'Friday Night Lights', 'Orange Is the new Black', 'The Walking Dead', 'American Idol', 'The Golden Girls', 'Planet Earth', 'Breaking Bad', 'Game of Thrones', 'The Blue Planet', 'The Office', 'Black Mirror', 'Its Always Sunny In Philadelphia', 'Better Call Saul', 'Peaky Blinders', 'Suits', 'Silicon Valley', 'Sons of Anarchy', 'Ozark'],
 

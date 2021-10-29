@@ -33,6 +33,17 @@
 	color: rgb(104, 41, 41);
 }
 
+#hangman-game.win #page-heading,
+#hangman-game.win #alphabet-buttons,
+#hangman-game.win #mystery-value,
+#hangman-game.win #lives,
+#hangman-game.lose #page-heading,
+#hangman-game.lose #alphabet-buttons,
+#hangman-game.lose #mystery-value,
+#hangman-game.lose #lives {
+	animation: none;
+}
+
 #hangman-game.win #win-overlay {
 	z-index: 1;
 	opacity: 1;
@@ -62,8 +73,10 @@
 #hangman-game.displayWinningStats #alphabet-buttons,
 #hangman-game.displayWinningStats #category,
 #hangman-game.displayWinningStats #mystery-value,
-#hangman-game.displayWinningStats #lives-remaining {
+#hangman-game.displayWinningStats #lives-remaining,
+#hangman-game.displayWinningStats #lives {
 	opacity: 0;
+	animation: none;
 }
 
 #hangman-game.displayWinningStats #stats {
@@ -91,7 +104,7 @@
 	margin: 2rem 0;
 	color: #fff;
 	max-width: 40vw;
-	animation: load 2s ease-out;
+	animation: loadRight 1s ease-out;
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 {
@@ -100,7 +113,7 @@
 	font-weight: 400;
 	color: #fff;
 	opacity: 1;
-	animation: load 2s ease-out;
+	animation: loadDown 1.5s ease-out;
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 b,
@@ -120,16 +133,47 @@
 	padding: 0;
 	border-radius: 25px;
 	box-shadow: 0 0 50px rgba(0, 0, 0, 0.733);
-	animation: load 2s ease-out;
+	animation: loadDown 1.5s ease-out;
 }
 
-@keyframes load {
-	from {
-		transform: rotateY(0);
+@keyframes loadDown {
+	0% {
+		transform: translateY(-50px);
 		opacity: 0;
 	}
-	to {
-		transform: rotateY(360deg);
+	/* 50% {
+		opacity: 0.2;
+	} */
+	100% {
 		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes loadRight {
+	0% {
+		transform: translateX(-50px);
+		opacity: 0;
+	}
+	/* 50% {
+		opacity: 0.2;
+	} */
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes loadUp {
+	0% {
+		transform: translateY(50px);
+		opacity: 0;
+	}
+	/* 50% {
+		opacity: 0.2;
+	} */
+	100% {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
