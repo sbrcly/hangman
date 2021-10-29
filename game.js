@@ -120,14 +120,26 @@ class Game {
         this.gameContainer.classList.add('win');
         this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
         this.difficultyBtn.style.opacity = 0;
+
         if (this.chosenCat === 'movies' || this.chosenCat === 'tv shows') {
             this.fetchWinningTerm('https://movies-tvshows-data-imdb.p.rapidapi.com/', '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
         }
+        if (this.chosenCat === 'random word') this.fetchWinningTerm(`https://wordsapiv1.p.rapidapi.com/words/${this.mysteryTerm}`, '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588');
         if (this.chosenCat === 'books') this.fetchWinningTerm('https://www.googleapis.com/books/v1/volumes', 'AIzaSyDTLD8MbAuYOggXGHaWn20ztduh92IIg3o');
+        
     };
     fetchWinningTerm = (url, apikey) => {
         // Fetch mystery value
         const fetchData = async () => {
+            if (this.chosenCat === 'random word') {
+                const response = await axios.get(url, {
+                    headers: {
+                        'x-rapidapi-host': 'wordsapiv1.p.rapidapi.com',
+                        'x-rapidapi-key': apikey
+                    }
+                });
+                this.parseMysteryTermInfo(response.data);
+            };
             if (this.chosenCat === 'tv shows') {
                 const response = await axios.get(url, {
                     params: {
@@ -255,17 +267,59 @@ class Game {
         if (this.chosenCat === 'tv shows') {
             this.showTitle = mysteryTermInfo.title;
             this.premierDate = mysteryTermInfo.year_started;
-            // this.genre = mysteryTermInfo.genres[0];
             this.showRating = mysteryTermInfo.imdb_rating;
             this.showCreators = mysteryTermInfo.creators;
             this.showActors = mysteryTermInfo.stars;
             this.showPlot = mysteryTermInfo.description;
+        }
+        if (this.chosenCat === 'random word') {
+            console.log('1', mysteryTermInfo);
+            this.word = mysteryTermInfo.word;
+            this.partOfSpeech = mysteryTermInfo.results[0].partOfSpeech;
+            this.syllables = mysteryTermInfo.syllables.count;
+            this.frequency = mysteryTermInfo.frequency;
+            this.synonyms = mysteryTermInfo.results[0].synonyms;
+            this.definition = mysteryTermInfo.results[0].definition;
         }
         this.displayMysteryTermInfo(mysteryTermInfo);
     }
     displayMysteryTermInfo = (mysteryTermInfo) => {
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
+        if (this.chosenCat === 'random word') {
+            console.log(mysteryTermInfo);
+            const wordStats = [];
+            const word = document.createElement('h1');
+            word.id = 'term-header';
+            word.innerText = this.word;
+            const partOfSpeech = document.createElement('h2');
+            partOfSpeech.id = 'part-of-speech';
+            partOfSpeech.innerText = `Part of Speech: ${this.partOfSpeech}`;
+            const syllables = document.createElement('h2');
+            syllables.id = 'syllables';
+            syllables.innerText = `Syllables: ${this.syllables}`;
+            const frequency = document.createElement('h2');
+            frequency.id = 'frequency';
+            frequency.innerText = `Frequency: ${this.frequency}`;
+            const synonyms = document.createElement('h2');
+            synonyms.id = 'synonyms';
+            synonyms.innerText = `Synonyms: ${this.synonyms}`;
+            const definition = document.createElement('h2');
+            definition.id = 'definition';
+            definition.innerHTML = `Definition: ${this.definition}`;
+            const wordImage = document.createElement('img');
+            wordImage.src = `/random-word-image.jpg`;
+    
+            wordStats.push(word, partOfSpeech, syllables, frequency, synonyms, definition);
+            setTimeout(() => {
+                for (let stat of wordStats) {
+                    if (stat.innerText !== 'undefined') {
+                        stats.append(stat);
+                    };
+                };
+                winOverlay.append(wordImage);
+            }, 1500);
+        }
         if (this.chosenCat === 'tv shows') {
             const showStats = [];
             const showTitle = document.createElement('h1');
