@@ -1,9 +1,10 @@
 class Game {
-    constructor(mysteryTerms, gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft) {
+    constructor(mysteryTerms, gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft, newGameBtns) {
         this.mysteryTerms = mysteryTerms;
         this.gameContainer = gameContainer;
         this.letterBtns = letterBtns;
         this.difficultyBtn = difficultyBtn;
+        this.newGameBtns = newGameBtns;
         this.categoryOptions = categoryOptions;
         this.mysteryValueHolder = mysteryValueHolder;
         this.livesLeft = livesLeft;
@@ -12,6 +13,7 @@ class Game {
         this.mysteryTerm = undefined;
         this.hideTerm = undefined;
 
+        this.stats = [];
         this.shownLetters = [];
         livesLeft.innerText = 9;
 
@@ -27,10 +29,13 @@ class Game {
                 if (letter.id === e.key) {
                     if (letter.classList.contains('wrong') === false) {
                         this.pickLetterType(e);
-                    }
-                }
-            }
-        })
+                    };
+                };
+            };
+        });
+        for (let newGameBtn of this.newGameBtns) {
+            newGameBtn.addEventListener('click', this.newGame);
+        }
 
         this.chooseMysteryValue();
     };
@@ -257,7 +262,7 @@ class Game {
             if (mysteryTermInfo.categories) this.bookGenre = mysteryTermInfo.categories[0];
             if (mysteryTermInfo.averageRating) this.bookRating = mysteryTermInfo.averageRating;
             this.bookSummary = mysteryTermInfo.description;
-            this.bookImg = mysteryTermInfo.imageLinks.thumbnail;
+            // this.img = mysteryTermInfo.imageLinks.thumbnail;
         }
         if (this.chosenCat === 'movies') {
             this.movieTitle = mysteryTermInfo.title;
@@ -291,7 +296,7 @@ class Game {
         initialWinHeading.remove();
         this.gameContainer.classList.add('displayWinningStats');
         if (this.chosenCat === 'random word') {
-            const wordStats = [];
+            // const wordStats = [];
             const word = document.createElement('h1');
             word.id = 'term-header';
             word.innerText = this.word;
@@ -310,21 +315,21 @@ class Game {
             const definition = document.createElement('h2');
             definition.id = 'definition';
             definition.innerHTML = `Definition: ${this.definition}`;
-            const wordImage = document.createElement('img');
-            wordImage.src = `/random-word-image.jpg`;
+            this.img = document.createElement('img');
+            this.img.src = `/random-word-image.jpg`;
     
-            wordStats.push(word, partOfSpeech, syllables, frequency, synonyms, definition);
+            this.stats.push(word, partOfSpeech, syllables, frequency, synonyms, definition);
             setTimeout(() => {
-                for (let stat of wordStats) {
+                for (let stat of this.stats) {
                     if (stat.innerText !== 'undefined') {
-                        stats.append(stat);
+                        statsContainer.append(stat);
                     };
                 };
-                winOverlay.append(wordImage);
+                winOverlay.append(this.img);
             }, 1500);
         }
         if (this.chosenCat === 'tv shows') {
-            const showStats = [];
+            // const showStats = [];
             const showTitle = document.createElement('h1');
             showTitle.id = 'term-header';
             showTitle.innerText = this.showTitle;
@@ -344,7 +349,7 @@ class Game {
             showPlot.id = 'showPlot';
             showPlot.innerHTML = `${this.showPlot}`;
     
-            showStats.push(showTitle, premierDate, showRating, showCreators, showActors, showPlot);
+            this.stats.push(showTitle, premierDate, showRating, showCreators, showActors, showPlot);
             const fetchData = async () => {
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
@@ -356,21 +361,21 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
-                const showPoster = document.createElement('img');
-                showPoster.src = response.data.poster;
+                this.img = document.createElement('img');
+                this.img.src = response.data.poster;
                 setTimeout(() => {
-                    for (let stat of showStats) {
+                    for (let stat of this.stats) {
                         if (stat.innerText !== 'undefined') {
-                            stats.append(stat);
+                            statsContainer.append(stat);
                         };
                     };
-                    winOverlay.append(showPoster);
+                    winOverlay.append(this.img);
                 }, 1500);
             }
             fetchData();
         }
         if (this.chosenCat === 'movies') {
-            const movieStats = [];
+            // const movieStats = [];
             const movieTitle = document.createElement('h1');
             movieTitle.id = 'term-header';
             movieTitle.innerText = this.movieTitle;
@@ -393,7 +398,7 @@ class Game {
             moviePlot.id = 'movie-plot';
             moviePlot.innerText = this.moviePlot;
     
-            movieStats.push(movieTitle, tagline, releaseYear, directors, mainCharacter, movieRating, moviePlot);
+            this.stats.push(movieTitle, tagline, releaseYear, directors, mainCharacter, movieRating, moviePlot);
             const fetchData = async () => {
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
@@ -405,21 +410,21 @@ class Game {
                         'x-rapidapi-key': '4d4e466a06msh322b9c94c642a3dp1ba99cjsn49b0f9408588'
                     }
                 })
-                const moviePoster = document.createElement('img');
-                moviePoster.src = response.data.poster;
+                this.img = document.createElement('img');
+                this.img.src = response.data.poster;
                 setTimeout(() => {
-                    for (let stat of movieStats) {
+                    for (let stat of this.stats) {
                         if (stat.innerText !== 'undefined') {
-                            stats.append(stat);
+                            statsContainer.append(stat);
                         };
                     };
-                    winOverlay.append(moviePoster);
+                    winOverlay.append(this.img);
                 }, 1500);
             }
             fetchData();
         }
         if (this.chosenCat === 'books') {
-            const bookStats = [];
+            // const bookStats = [];
             const bookTitle = document.createElement('h1');
             bookTitle.id = 'term-header';
             bookTitle.innerText = this.bookTitle;
@@ -438,18 +443,18 @@ class Game {
             const bookSummary = document.createElement('h2');
             bookSummary.id = 'book-summary';
             bookSummary.innerText = this.bookSummary;
-            const bookImg = document.createElement('img');
-            bookImg.id = 'book-image';
-            bookImg.src = this.bookImg;
+            this.img = document.createElement('img');
+            this.img.id = 'book-image';
+            this.img.src = mysteryTermInfo.imageLinks.thumbnail;
     
-            bookStats.push(bookTitle, subtitle, author, bookGenre, bookRating, bookSummary);
+            this.stats.push(bookTitle, subtitle, author, bookGenre, bookRating, bookSummary);
             setTimeout(() => {
-                for (let stat of bookStats) {
+                for (let stat of this.stats) {
                     if (stat.innerText !== 'undefined') {
-                        stats.append(stat);
+                        statsContainer.append(stat);
                     };
                 };
-                winOverlay.append(bookImg);
+                winOverlay.append(this.img);
             }, 2000);
         }  
         
@@ -482,4 +487,25 @@ class Game {
         if (this.difficultyBtn.value === 'hard') this.livesLeft.innerText = 4
         this.livesLeft.style.backgroundColor = 'rgb(41, 104, 41)';
     };
+    newGame = () => {
+        this.resetGame();
+        for (let stat of this.stats) {
+            stat.remove();
+        }
+        this.img.remove();
+        this.chosenCat = undefined;
+        this.mysteryTerm = undefined;
+        this.hideTerm = undefined;
+
+        this.stats = [];
+        this.shownLetters = [];
+        livesLeft.innerText = 9;
+        this.gameContainer.classList.remove('displayWinningStats');
+        this.gameContainer.classList.remove('win');
+        this.gameContainer.classList.remove('lose');
+        this.difficultyBtn.style.opacity = 1;
+
+        this.chooseMysteryValue();
+        winOverlay.append(initialWinHeading);
+    }
 };

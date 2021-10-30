@@ -7,6 +7,9 @@ const gameContainer = document.querySelector('#hangman-game');
 const difficultyBtn = document.querySelector('#difficulty');
 const initialWinHeading = document.querySelector('#initial-win-heading');
 const winOverlay = document.querySelector('#win-overlay');
+const loseOverlay = document.querySelector('#lose-overlay');
+const newGameBtns = document.querySelectorAll('.new-game');
+const statsContainer = document.querySelector('#stats');
 
 let lives;
 
@@ -42,5 +45,5 @@ for (let cat in mysteryTerms) {
     categoryOptions.append(catOption);
 }
 
-const game1 = new Game(mysteryTerms, gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft);
+const game1 = new Game(mysteryTerms, gameContainer, letterBtns, difficultyBtn, categoryOptions, mysteryValueHolder, livesLeft, newGameBtns);
 
