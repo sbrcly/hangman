@@ -183,9 +183,7 @@ class Game {
                         'x-rapidapi-key': apikey
                     }
                 });
-                console.log(response.data);
                 if (response.data.movie_results.imdb_id !== undefined) {
-                    console.log(`IF: ${response.data.movie_results}`);
                     return response.data.movie_results.imdb_id; 
                 }   else {
                     const movies = [];
@@ -194,7 +192,6 @@ class Game {
                             movies.push(movie);
                         }
                     }
-                    console.log(`Else: ${response.data.movie_results}`);
                     return movies[0].imdb_id;
                 }
                     
@@ -226,8 +223,6 @@ class Game {
                             'x-rapidapi-key': apikey
                         }
                     });
-                    // console.log(response.data);
-
                     this.parseMysteryTermInfo(response.data);
                 };
                 setTimeout(() => {
@@ -262,7 +257,6 @@ class Game {
             if (mysteryTermInfo.categories) this.bookGenre = mysteryTermInfo.categories[0];
             if (mysteryTermInfo.averageRating) this.bookRating = mysteryTermInfo.averageRating;
             this.bookSummary = mysteryTermInfo.description;
-            // this.img = mysteryTermInfo.imageLinks.thumbnail;
         }
         if (this.chosenCat === 'movies') {
             this.movieTitle = mysteryTermInfo.title;
@@ -282,7 +276,6 @@ class Game {
             this.showPlot = mysteryTermInfo.description;
         }
         if (this.chosenCat === 'random word') {
-            console.log(mysteryTermInfo);
             this.word = mysteryTermInfo.word;
             this.partOfSpeech = mysteryTermInfo.results[0].partOfSpeech;
             if (mysteryTermInfo.syllables) this.syllables = mysteryTermInfo.syllables.count;
@@ -302,19 +295,19 @@ class Game {
             word.innerText = this.word;
             const partOfSpeech = document.createElement('h2');
             partOfSpeech.id = 'part-of-speech';
-            partOfSpeech.innerText = `Part of Speech: ${this.partOfSpeech}`;
+            partOfSpeech.innerHTML = `<span>Part of Speech: ${this.partOfSpeech}</span>`;
             const syllables = document.createElement('h2');
             syllables.id = 'syllables';
-            syllables.innerText = `Syllables: ${this.syllables}`;
+            syllables.innerHTML = `<span>Syllables: ${this.syllables}</span>`;
             const frequency = document.createElement('h2');
             frequency.id = 'frequency';
-            frequency.innerText = `Frequency: ${this.frequency}`;
+            frequency.innerHTML = `<span>Frequency: ${this.frequency}</span>`;
             const synonyms = document.createElement('h2');
             synonyms.id = 'synonyms';
-            synonyms.innerText = `Synonyms: ${this.synonyms}`;
+            synonyms.innerHTML = `<span>Synonyms: ${this.synonyms.join(', ')}</span>`;
             const definition = document.createElement('h2');
             definition.id = 'definition';
-            definition.innerHTML = `Definition: ${this.definition}`;
+            definition.innerHTML = this.definition;
             this.img = document.createElement('img');
             this.img.src = `/random-word-image.jpg`;
     
@@ -335,16 +328,16 @@ class Game {
             showTitle.innerText = this.showTitle;
             const premierDate = document.createElement('h2');
             premierDate.id = 'premier-date';
-            premierDate.innerText = `Premiered: ${this.premierDate}`;
+            premierDate.innerHTML = `<span>Premiered: ${this.premierDate}</span>`;
             const showRating = document.createElement('h2');
             showRating.id = 'showRating';
-            showRating.innerText = `Rating: ${this.showRating}`;
+            showRating.innerHTML = `<span>Rating: ${this.showRating}</span>`;
             const showCreators = document.createElement('h2');
             showCreators.id = 'creators';
-            showCreators.innerText = `Creators: ${this.showCreators}`;
+            showCreators.innerHTML = `<span>Creators: ${this.showCreators.join(', ')}</span>`;
             const showActors = document.createElement('h2');
             showActors.id = 'show-actors';
-            showActors.innerText = `Actors: ${this.showActors}`;
+            showActors.innerHTML = `<span>Actors: ${this.showActors.join(', ')}</span>`;
             const showPlot = document.createElement('h2');
             showPlot.id = 'showPlot';
             showPlot.innerHTML = `${this.showPlot}`;
@@ -375,7 +368,6 @@ class Game {
             fetchData();
         }
         if (this.chosenCat === 'movies') {
-            // const movieStats = [];
             const movieTitle = document.createElement('h1');
             movieTitle.id = 'term-header';
             movieTitle.innerText = this.movieTitle;
@@ -384,21 +376,25 @@ class Game {
             tagline.innerText = this.tagline;
             const releaseYear = document.createElement('h2');
             releaseYear.id = 'release-year';
-            releaseYear.innerText = `Release Year: ${this.releaseYear}`;
+            releaseYear.innerHTML = `<span>Release Year: ${this.releaseYear}</span>`;
             const directors = document.createElement('h2');
             directors.id = 'directors';
-            directors.innerText = `Directors: ${this.directors}`;
-            const mainCharacter = document.createElement('h2');
-            mainCharacter.id = 'main-character';
-            mainCharacter.innerText = `Main Actor/Actress: ${this.actors[0]}`;
+            directors.innerHTML = `<span>Directors: ${this.directors.join(', ')}</span>`;
+            const mainCharacters = document.createElement('h2');
+            mainCharacters.id = 'main-characters';
+            let mainActors = [];
+            for (let i = 0; i < 5; i++) {
+                mainActors.push(this.actors[i]);
+            }
+            mainCharacters.innerHTML = `<span>Actors: ${mainActors.join(', ')}</span>`;
             const movieRating = document.createElement('h2');
             movieRating.id = 'movie-rating';
-            movieRating.innerText = `IMDB Rating: ${this.movieRating}`;
+            movieRating.innerHTML = `<span>IMDB Rating: ${this.movieRating}</span>`;
             const moviePlot = document.createElement('h2');
             moviePlot.id = 'movie-plot';
             moviePlot.innerText = this.moviePlot;
     
-            this.stats.push(movieTitle, tagline, releaseYear, directors, mainCharacter, movieRating, moviePlot);
+            this.stats.push(movieTitle, tagline, releaseYear, directors, mainCharacters, movieRating, moviePlot);
             const fetchData = async () => {
                 const response = await axios.get('https://movies-tvshows-data-imdb.p.rapidapi.com/', {
                     params: {
@@ -424,7 +420,6 @@ class Game {
             fetchData();
         }
         if (this.chosenCat === 'books') {
-            // const bookStats = [];
             const bookTitle = document.createElement('h1');
             bookTitle.id = 'term-header';
             bookTitle.innerText = this.bookTitle;
@@ -433,13 +428,13 @@ class Game {
             subtitle.innerText = this.subtitle;
             const author = document.createElement('h2');
             author.id = 'author';
-            author.innerText = `Author: ${this.author}`;
+            author.innerHTML = `<span>Author: ${this.author}</span>`;
             const bookGenre = document.createElement('h2');
             bookGenre.id = 'book-genre';
-            bookGenre.innerText = `Genre: ${this.bookGenre}`;
+            bookGenre.innerHTML = `<span>Genre: ${this.bookGenre}</span>`;
             const bookRating = document.createElement('h2');
             bookRating.id = 'book-rating';
-            bookRating.innerText = `Rating: ${this.bookRating}`;
+            bookRating.innerHTML = `<span>Rating: ${this.bookRating}</span>`;
             const bookSummary = document.createElement('h2');
             bookSummary.id = 'book-summary';
             bookSummary.innerText = this.bookSummary;
