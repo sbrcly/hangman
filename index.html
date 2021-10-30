@@ -16,20 +16,20 @@
 </head>
 <body>
     <nav id="navbar">
-        <select name="difficulty" id="difficulty">
+        <select name="difficulty-selector" id="difficulty-selector">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
         </select>
     </nav>
-    <section id="hangman-game">
+    <main id="hangman-game-container">
         <div class="game-overlay" id="win-overlay">
-            <button class="new-game" id="new-game-win">New Game</button>
+            <button class="new-game" id="new-game-win-btn">New Game</button>
             <h1 id="initial-win-heading">You Win!!</h1>
             <div id="stats"></div>
         </div>
         <div class="game-overlay" id="lose-overlay">
-            <button class="new-game" id="new-game-lose">New Game</button>
+            <button class="new-game" id="new-game-lose-btn">New Game</button>
             <h1>You Lose!!</h1>
         </div>
         <h1 id="page-heading">H<span>a</span>ngm<span>a</span>n</h1>
@@ -39,7 +39,7 @@
         </select></h3>
         <h2 id="mystery-value"></h2>
         <h3 id="lives-remaining"> <span id="lives"></span> Lives Remaining!</h3>
-    </section>
+    </main>
     <script src="/game.js"></script>
     <script src="/app.js"></script>
 </body>
