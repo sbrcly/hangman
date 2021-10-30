@@ -337,7 +337,11 @@ class Game {
             showCreators.innerHTML = `<span>Creators: ${this.showCreators.join(', ')}</span>`;
             const showActors = document.createElement('h2');
             showActors.id = 'show-actors';
-            showActors.innerHTML = `<span>Actors: ${this.showActors.join(', ')}</span>`;
+            let mainShowActors = [];
+            for (let i = 0; i < 5; i++) {
+                mainShowActors.push(this.showActors[i]);
+            }
+            showActors.innerHTML = `<span>Actors: ${mainShowActors.join(', ')}</span>`;
             const showPlot = document.createElement('h2');
             showPlot.id = 'showPlot';
             showPlot.innerHTML = `${this.showPlot}`;
@@ -379,7 +383,11 @@ class Game {
             releaseYear.innerHTML = `<span>Release Year: ${this.releaseYear}</span>`;
             const directors = document.createElement('h2');
             directors.id = 'directors';
-            directors.innerHTML = `<span>Directors: ${this.directors.join(', ')}</span>`;
+            let mainDirectors = [];
+            for (let i = 0; i < 5; i++) {
+                mainDirectors.push(this.directors[i]);
+            }
+            directors.innerHTML = `<span>Directors: ${mainDirectors.join(', ')}</span>`;
             const mainCharacters = document.createElement('h2');
             mainCharacters.id = 'main-characters';
             let mainActors = [];

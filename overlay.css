@@ -32,7 +32,7 @@
 	border-radius: 10px;
 	color: #fff;
 	transform: translateY(-100px);
-	box-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
 .game-overlay h1 {
@@ -127,7 +127,8 @@
 	margin: 2rem 0;
 	color: #fff;
 	max-width: 40vw;
-	animation: loadRight 1s ease-out;
+	animation: loadRight 0.5s ease-out;
+	text-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 {
@@ -137,6 +138,7 @@
 	color: #fff;
 	opacity: 1;
 	animation: loadDown 1.5s ease-out;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 span {
@@ -145,6 +147,8 @@
 	color: #222;
 	opacity: 1;
 	border-radius: 10px;
+	text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 0 3px 25px rgba(0, 0, 0, 0.6);
 }
 
 #hangman-game.displayWinningStats #win-overlay h2 b,
@@ -164,7 +168,7 @@
 	padding: 0;
 	border-radius: 25px;
 	box-shadow: 0 0 50px rgba(0, 0, 0, 0.733);
-	animation: loadDown 1.5s ease-out;
+	animation: loadDown 3s ease-out;
 }
 
 #hangman-game.displayWinningStats #win-overlay #new-game-win {
@@ -177,9 +181,8 @@
 	cursor: pointer;
 	padding: 0.7rem 1.45rem;
 	margin: 0.05rem;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-	opacity: 0.6;
-	transition: all 0.3s;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 1);
+	transition: all 0.2s;
 	transform-origin: right;
 }
 
