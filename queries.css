@@ -1,156 +1,122 @@
 @keyframes loadDown {
-  0% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	0% {
+		transform: translateY(-50px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes loadRight {
-  0% {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+	0% {
+		transform: translateX(-50px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
 
 @keyframes loadUp {
-  0% {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	0% {
+		transform: translateY(50px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes loadLeft {
-  0% {
-    transform: translateX(50px);
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0px);
-  }
+	0% {
+		transform: translateX(50px);
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0px);
+	}
 }
 
-@media screen and (max-width: 1025px) {
-  body {
-    height: auto;
-  }
-  #difficulty {
-    padding: 0.2rem;
-  }
-  #difficulty option {
-    font-size: 1rem;
-  }
-  #hangman-game {
-    margin-top: 20vh;
-    height: auto;
-  }
-  #page-heading {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-  }
-  #alphabet-buttons {
-    max-width: 100vw;
-    border-radius: 0;
-  }
-  #mystery-value {
-    font-size: 3rem;
-  }
-  #lives {
-    padding: 0.2rem 1rem;
-  }
-  .game-overlay #initial-win-heading {
-    top: 50%;
-    left: 50%;
-  }
-  #hangman-game.displayWinningStats #win-overlay {
-    height: auto;
-    flex-direction: column;
-  }
-  #hangman-game.displayWinningStats #win-overlay h2 {
-    max-width: 95vw;
-  }
-  #hangman-game.displayWinningStats #win-overlay img {
-    margin-top: 5rem;
-    width: 85vw;
-  }
+@media (max-width: 1540px) {
+	html {
+		font-size: 12px;
+	}
+
+	.displayWinningStats #win-overlay-header {
+		max-width: 60vw;
+	}
 }
 
-@media screen and (max-width: 770px) {
-  #hangman-game {
-    margin-top: 12vh;
-  }
-  .game-overlay h1 {
-    font-size: 5rem;
-  }
+@media (max-width: 1025px) {
+	.game-overlay {
+		flex-wrap: wrap;
+	}
+	.displayWinningStats #stats {
+		margin-top: 5vh;
+		opacity: 1;
+		width: 95vw;
+	}
+	.displayWinningStats #win-overlay h2 {
+		max-width: 100%;
+	}
+	.displayWinningStats #win-overlay img {
+		margin-top: 3vh;
+	}
 }
 
-@media screen and (max-width: 540px) {
-  #hangman-game {
-    margin-top: 15vh;
-  }
-  #navbar {
-    top: 1vh;
-    right: 1vh;
-    margin: 0.5rem;
-  }
-  #difficulty {
-    font-size: 0.75rem;
-  }
-  #page-heading {
-    font-size: 3rem;
-    letter-spacing: 3px;
-    margin-bottom: 0rem;
-  }
-  #instructions {
-    font-size: 1rem;
-  }
-  #alphabet-buttons {
-    padding: 1rem 0;
-    max-width: 100vw;
-    width: 100vw;
-    border-radius: 0;
-    margin: 0 0 0.5rem 0;
-  }
-  #alphabet-buttons button {
-    font-size: 1rem;
-    width: 30px;
-    margin: 0.25rem;
-  }
-  #category-options {
-    font-size: 1.25rem;
-    padding: 0.2rem;
-  }
-  #mystery-value {
-    font-size: 1.75rem;
-    width: 99vw;
-  }
-  #lives {
-    font-size: 1.25rem;
-    padding: 0.2rem 1rem;
-  }
-  #hangman-game.displayWinningStats #win-overlay {
-    padding: 0;
-  }
-  #hangman-game.win #win-overlay h1 {
-    font-size: 4rem;
-  }
-  #hangman-game.displayWinningStats #win-overlay h2 {
-    max-width: 99vw;
-    font-size: 1rem;
-  }
-  #hangman-game.displayWinningStats #win-overlay img {
-    width: 95vw;
-  }
+@media (max-width: 769px) {
+	html {
+		font-size: 10px;
+	}
+	#alphabet-buttons {
+		padding: 2rem;
+		max-width: 100vw;
+		transform: scale(1);
+	}
+}
+
+@media (max-width: 541px) {
+	html {
+		font-size: 8px;
+	}
+	.game-overlay h1 {
+		font-size: 5rem;
+	}
+	.displayWinningStats #win-overlay h2 span {
+		background-color: transparent;
+		color: #fff;
+		box-shadow: none;
+		padding-left: 0;
+	}
+	#alphabet-buttons button {
+		font-size: 1rem;
+		width: 3rem;
+	}
+}
+
+@media (max-width: 415px) {
+	#page-heading {
+		font-size: 4rem;
+		letter-spacing: 10px;
+	}
+	#instructions {
+		font-size: 1rem;
+	}
+	#mystery-value {
+		font-size: 3rem;
+		text-align: center;
+		justify-content: center;
+	}
+}
+
+@media (max-width: 376px) {
+	#mystery-value {
+		font-size: 2rem;
+		letter-spacing: 15px;
+	}
 }

@@ -1,153 +1,155 @@
 .game-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: transparent;
-  display: flex;
-  z-index: -1;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: transparent;
+	display: flex;
+	z-index: -1;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
 }
 
 .game-overlay h1 {
-  font-family: 'Architects Daughter', cursive;
-  text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
-  font-size: 10rem;
-  transform: scale(0);
-  opacity: 0;
+	font-family: 'Architects Daughter', cursive;
+	text-shadow: 0 0 25px rgba(0, 0, 0, 0.733);
+	font-size: 10rem;
+	transform: scale(0);
+	opacity: 0;
 }
 
 #win-overlay h1 {
-  color: rgb(41, 104, 41);
-  font-weight: 400;
-  letter-spacing: 5px;
+	color: rgb(41, 104, 41);
+	font-weight: 400;
+	letter-spacing: 5px;
 }
 
 #lose-overlay h1 {
-  color: rgb(104, 41, 41);
-  font-weight: 400;
-  letter-spacing: 5px;
+	color: rgb(104, 41, 41);
+	font-weight: 400;
+	letter-spacing: 5px;
 }
 
 #new-game-win-btn,
 #new-game-lose-btn {
-  position: absolute;
-  top: 2vh;
-  right: 2vw;
-  opacity: 0;
-  font-size: 0.9rem;
-  font-weight: 700;
-  padding: 0.75rem 1.5rem;
-  text-transform: uppercase;
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  color: #222;
-  transform: translateY(-100px);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+	position: absolute;
+	top: 2vh;
+	right: 2vw;
+	opacity: 0;
+	font-size: 0.9rem;
+	font-weight: 700;
+	padding: 0.75rem 1.5rem;
+	text-transform: uppercase;
+	background-color: #fff;
+	border: none;
+	border-radius: 10px;
+	color: #222;
+	transform: translateY(-100px);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
 #new-game-win-btn:hover,
 #new-game-lose-btn:hover {
-  cursor: pointer;
-  background-color: rgba(221, 221, 221, 0.514);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-  transition: all 0.3s;
+	cursor: pointer;
+	background-color: rgba(221, 221, 221, 0.514);
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+	transition: all 0.3s;
 }
 
 #hangman-game-container.win *,
 #hangman-game-container.lose * {
-  animation: none;
+	animation: none;
 }
 
 #hangman-game-container.win #win-overlay,
 #hangman-game-container.lose #lose-overlay {
-  z-index: 1;
-  opacity: 1;
-  transition: all 1s;
+	z-index: 1;
+	opacity: 1;
+	transition: all 1s;
 }
 
 #hangman-game-container.win #lives {
-  background-color: rgb(41, 104, 41);
+	background-color: rgb(41, 104, 41);
 }
 
 #hangman-game-container.lose #new-game-lose-btn {
-  opacity: 1;
-  animation: loadDown 1s 2.5s forwards;
+	opacity: 1;
+	animation: loadDown 1s 2.5s forwards;
 }
 
 #hangman-game-container.win #win-overlay h1 {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 1s ease-in;
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-in;
 }
 
 #hangman-game-container.lose #lose-overlay h1 {
-  opacity: 1;
-  transform: scale(1);
-  transition: all 1s ease-out;
+	opacity: 1;
+	transform: scale(1);
+	transition: all 1s ease-out;
 }
 
 #hangman-game-container.displayWinningStats * {
-  opacity: 0;
+	opacity: 0;
 }
 
 .displayWinningStats #stats {
-  opacity: 1;
+	margin-top: 5vh;
+	opacity: 1;
+	max-width: 1200px;
 }
 
 .displayWinningStats #win-overlay {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  text-align: left;
-  line-height: 1.5;
-  padding: 0 3rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	text-align: left;
+	line-height: 1.5;
+	padding: 0 3rem;
 }
 
 .displayWinningStats #win-overlay-header {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 5rem;
-  margin: 2rem 0;
-  color: #fff;
-  max-width: 40vw;
-  animation: loadRight 0.5s ease-out;
-  text-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+	font-family: 'Montserrat', sans-serif;
+	font-size: 5rem;
+	margin: 2rem 0;
+	color: #fff;
+	max-width: 40vw;
+	animation: loadRight 1.5s ease-out;
+	text-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
 }
 
 .displayWinningStats #win-overlay h2 {
-  max-width: 60vw;
-  font-weight: 400;
-  opacity: 1;
-  animation: loadUp 1.5s ease-out;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+	max-width: 60vw;
+	font-weight: 400;
+	opacity: 1;
+	animation: loadUp 2s ease-out;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 .displayWinningStats #win-overlay h2 span {
-  background-color: #fff;
-  padding: 0.75rem;
-  color: #222;
-  opacity: 1;
-  border-radius: 10px;
-  text-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  box-shadow: 0 3px 25px rgba(0, 0, 0, 0.6);
+	background-color: #fff;
+	padding: 0.75rem;
+	color: #222;
+	opacity: 1;
+	border-radius: 10px;
+	text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 0 3px 25px rgba(0, 0, 0, 0.6);
 }
 
 .displayWinningStats #win-overlay img {
-  height: 60%;
-  align-self: center;
-  opacity: 1;
-  padding: 0;
-  border-radius: 25px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.733);
-  animation: loadLeft 3s ease-out forwards;
+	height: 60%;
+	align-self: center;
+	opacity: 1;
+	padding: 0;
+	border-radius: 25px;
+	box-shadow: 0 0 50px rgba(0, 0, 0, 0.733);
+	animation: loadLeft 3s ease-out forwards;
 }
 
 .displayWinningStats #win-overlay #new-game-win-btn {
-  opacity: 1;
-  animation: loadDown 2s 4s forwards;
+	opacity: 1;
+	animation: loadDown 2s 3s forwards;
 }
