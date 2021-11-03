@@ -123,8 +123,7 @@
 
 @media (max-width: 376px) {
 	#hangman-game-container {
-		justify-content: flex-end;
-		padding-bottom: 2rem;
+		padding-top: 2rem;
 	}
 	#page-heading {
 		margin-bottom: 0;
