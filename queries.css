@@ -1,6 +1,6 @@
 @keyframes loadDown {
 	0% {
-		transform: translateY(-50px);
+		transform: translateY(-10px);
 		opacity: 0;
 	}
 	100% {
@@ -11,7 +11,7 @@
 
 @keyframes loadRight {
 	0% {
-		transform: translateX(-50px);
+		transform: translateX(-10px);
 		opacity: 0;
 	}
 	100% {
@@ -22,7 +22,7 @@
 
 @keyframes loadUp {
 	0% {
-		transform: translateY(50px);
+		transform: translateY(10px);
 		opacity: 0;
 	}
 	100% {
@@ -33,7 +33,7 @@
 
 @keyframes loadLeft {
 	0% {
-		transform: translateX(50px);
+		transform: translateX(10px);
 		opacity: 0;
 	}
 	100% {
